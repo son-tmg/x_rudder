@@ -16,6 +16,22 @@ class Player:
         self._nbMoves = nbMoves
         self._moveTime = moveTime
 
+    def get_playerName(self):
+        """Return the name of the player"""
+        return self._playerName
+
+    def get_nbTokens(self):
+        """Return the number of tokens of the player"""
+        return self._nbTokens
+
+    def get_nbMoves(self):
+        """Return the number of moves of the player"""
+        return self._nbMoves
+
+    def get_moveTime(self):
+        """Return the time took for the player/AI to make a move"""
+        return self._moveTime
+
     def placeToken(self, Token, Token.position):
         """
         Method to Place an unused token on the game grid
