@@ -1,4 +1,3 @@
-
 class Game:
 
 	"""Represents a game session of X-Rudder"""
@@ -43,22 +42,21 @@ class Game:
 		
 	def createGameGrid(self):
 		"""Set gameGrid to a multidimensional 12x10 list and initiate elements to empty string.
-			newGrid : a tuple of dictionaries. The tuples represent the rows, and each dictionary is a column 
-						Keys: A - Z , Values: Tokens
+			newGrid : a tuple of dictionaries. The tuples represent the rows, and each dictionary contains the pairs (Keys: A - Z , Values: Token object)
 		"""
 		newGrid = (
-					{{"A":" "},{"B":" "},{"C":" "},{"D":" "},{"E":" "},{"F":" "},{"G":" "},{"H":" "},{"I":" "},{"J":" "},{"K":" "},{"L":" "}},
-					{{"A":" "},{"B":" "},{"C":" "},{"D":" "},{"E":" "},{"F":" "},{"G":" "},{"H":" "},{"I":" "},{"J":" "},{"K":" "},{"L":" "}},
-					{{"A":" "},{"B":" "},{"C":" "},{"D":" "},{"E":" "},{"F":" "},{"G":" "},{"H":" "},{"I":" "},{"J":" "},{"K":" "},{"L":" "}},
-					{{"A":" "},{"B":" "},{"C":" "},{"D":" "},{"E":" "},{"F":" "},{"G":" "},{"H":" "},{"I":" "},{"J":" "},{"K":" "},{"L":" "}},
-					{{"A":" "},{"B":" "},{"C":" "},{"D":" "},{"E":" "},{"F":" "},{"G":" "},{"H":" "},{"I":" "},{"J":" "},{"K":" "},{"L":" "}},
-					{{"A":" "},{"B":" "},{"C":" "},{"D":" "},{"E":" "},{"F":" "},{"G":" "},{"H":" "},{"I":" "},{"J":" "},{"K":" "},{"L":" "}},
-					{{"A":" "},{"B":" "},{"C":" "},{"D":" "},{"E":" "},{"F":" "},{"G":" "},{"H":" "},{"I":" "},{"J":" "},{"K":" "},{"L":" "}},
-					{{"A":" "},{"B":" "},{"C":" "},{"D":" "},{"E":" "},{"F":" "},{"G":" "},{"H":" "},{"I":" "},{"J":" "},{"K":" "},{"L":" "}},
-					{{"A":" "},{"B":" "},{"C":" "},{"D":" "},{"E":" "},{"F":" "},{"G":" "},{"H":" "},{"I":" "},{"J":" "},{"K":" "},{"L":" "}},
-					{{"A":" "},{"B":" "},{"C":" "},{"D":" "},{"E":" "},{"F":" "},{"G":" "},{"H":" "},{"I":" "},{"J":" "},{"K":" "},{"L":" "}}
+					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
+					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
+					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
+					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
+					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
+					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
+					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
+					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
+					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
+					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
 				)
-		print(newGrid[0])
+
 		return newGrid
 
 	def printGameGrid(self):
@@ -66,28 +64,23 @@ class Game:
 		"""prints the gameGrid as a 10 x 12 matrix"""
 		print("\n")
 		
-		for i in range(self._gameGrid):
+		keys = ["A","B","C","D","E","F","G","H","I","J","K","L"]
+
+		for i in range(len(self._gameGrid)):
 			
+			print(i, end="  ") # print row number and space
 
+			for j in range(len(self._gameGrid[i])):
+				print(self._gameGrid[i][keys[j]]," ",end="")
 
+			print("\n")	# skip a line once a row has been printed for next row
 
+			#when all rows have been printed, print a row of the keys 
+			if i == 9:
+				for i in range(12):
+					print('{:>5}'.format(keys[i]),end=" ")	
 
-		# columns = ["A","B","C","D","E","F","G","H","I","J","K","L"]
-		# for i in range(0,10):
-		# 	row = i	
-		# 	for j in range(0,12):
-		# 		if(row == i) :
-		# 			print(10-i,end=" ")
-		# 			row = row - 1
-
-		# 		print('{:>5}'.format(self._gameGrid[i][j]),end=" ")
-			
-		# 	print("\n")
-		# 	if i == 9:
-		# 		for i in range(len(columns)):
-		# 			print('{:>5}'.format(columns[i]),end=" ")				
-
-			print("\n")
+		print("\n") #skip a line 
 
 
 	def checkState(self,Token):
@@ -96,3 +89,4 @@ class Game:
 
 if __name__ == "__main__":
 	g1 = Game("","","","")
+	g1.printGameGrid()
