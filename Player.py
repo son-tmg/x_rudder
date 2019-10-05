@@ -60,7 +60,10 @@ class Player:
                 self.moveToken(Token, position) #WIP
             else:
                 y = input(print("Choose another Token."))
-                self.placeToken(y, position)
+                self.placeToken(y, [1,"A"])   #For coordinate, place a list as the argument, 1st arg. being 1-10, 2nd being A-L
+        else:
+            updateGameGrid(-position)  #WIP
+
 
     def moveToken(self, Token, position):
         """
