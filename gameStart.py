@@ -1,9 +1,12 @@
-import Game,Player,Token
+from Game import *
+import Player
+from Token import *
 
 if __name__ == "__main__":
     startState = False
     Players = []
 
+    print("--------------------------------------------------")
     print("--------------------------------------------------")
     print("Welcome to the 2-player game called X-Rudder.\n")
 
@@ -13,15 +16,18 @@ if __name__ == "__main__":
         if gameMode == "1":
             startState = True
 
-            Player1Name = input("Welcome Player 1, please enter your name: ")
-            Player1 = Player(Player1Name, "u\u2588")
+            Player1Name = input("\nWelcome Player 1, please enter your name: ")
+            Player1 = Player.Player(Player1Name, "\u2588")
+            Players.append(Player1)
+            print(Player1.get_playerName(), Player1.get_playerColour())
 
-            Player2Name = input("Welcome Player 2, please enter your name: ")
-            Player2 = Player(Player2Name, "u\u2591")
+            Player2Name = input("\nWelcome Player 2, please enter your name: ")
+            Player2 = Player.Player(Player2Name, "\u2591")
+            Players.append(Player2)
+            print(Player2.get_playerName(), Player2.get_playerColour())
 
-            print("Starting a new game session.")
-            newGame = Game()
-            players.append(player1,player2)
+            print("\nStarting a new game session.")
+            #newGame = Game()
 
         elif gameMode == "2":
             startState = True

@@ -14,6 +14,7 @@ class Token:
 
     def get_tokenColour(self):
         """Return the colour of the token"""
+
         return self._tokenColour
 
     def get_tokenPosition(self):
