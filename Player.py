@@ -3,7 +3,7 @@ import Token
 class Player:
     """A Player in the Game"""
 
-    def __init__(self, playerName):
+    def __init__(self, playerName, playerColour):
         """
         New instance of a PLayer
 
@@ -14,7 +14,7 @@ class Player:
         """
 
         self._playerName = playerName
-        self._playerColour = ""
+        self._playerColour = playerColour
         self._nbTokens = 15
         self._nbMoves = 0
         self._moveTime = 0
@@ -62,7 +62,10 @@ class Player:
                 y = input(print("Choose another Token."))
                 self.placeToken(y, [1,"A"])   #For coordinate, place a list as the argument, 1st arg. being 1-10, 2nd being A-L
         else:
-            updateGameGrid(-position)  #WIP
+            moveType = "place"
+            #updateGameGrid(Token, position)  #WIP
+            #   -----> printGameGrod()
+            #checkState(Token)
 
 
     def moveToken(self, Token, position):
