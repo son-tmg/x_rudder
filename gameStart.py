@@ -1,6 +1,4 @@
-from Game import *
-import Player
-from Token import *
+import Game, Player, Token
 
 if __name__ == "__main__":
     startState = False
