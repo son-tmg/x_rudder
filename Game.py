@@ -1,5 +1,5 @@
 import Token
-from Player import *
+import Player
 
 class Game:
 
@@ -8,7 +8,7 @@ class Game:
 	"""-----*******************************************-----Color for black : print(u'\u2588',u'\u2591')----*******************************************--"""
 
 
-	def __init__(self,players,totalTimeOfGame,totalPlacedTokens,):
+	def __init__(self,players):
 		"""
 			players : list of the 2 players in the game
 			gameFinished : True if game is finished (Win or Tie). False otherwise.
@@ -31,7 +31,8 @@ class Game:
 					[None,None,None,None,None,None,None,None,None,None,None,None],
 					[None,None,None,None,None,None,None,None,None,None,None,None],
 			]
-		self._totalPlacedTokens = totalPlacedTokens
+		self._totalPlacedTokens = 0
+		self._totalTimeOfGame = 0
 
 	def getgameFinished(self):
 		"""returns the gameFinished"""
@@ -46,8 +47,8 @@ class Game:
 		return self._totalPlacedTokens
 
 	def setgameFinished(self,gameFinished):
-		"""sets the gameFinished"""
-		self._gameFinished
+		"""sets the gameFinished status """
+		self._gameFinished = gameFinished
 
 	def setGameGrid(self,gameGrid):
 		"""sets the gameGrid"""
@@ -81,10 +82,9 @@ class Game:
 		print("\n") #skip a line 
 
 	def updateGameGrid(self,token,newPosition,moveType):
-		"""updates game grid with new token or move.
-			if placing token:
-				get coordinates of old token
-				set game grid position 
+		"""
+		updates game grid with new token or move.
+		if placing token:get coordinates of old tokenset game grid position
 		"""
 
 		if moveType == "place":
