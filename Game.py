@@ -1,8 +1,14 @@
+import Token
+import Player
+
 class Game:
 
 	"""Represents a game session of X-Rudder"""
 	
-	def __init__(self,players,gameFinished,totalTimeOfGame,totalPlacedTokens,):
+	"""-----*******************************************-----Color for black : print(u'\u2588',u'\u2591')----*******************************************--"""
+
+
+	def __init__(self,players):
 		"""
 			players : list of the 2 players in the game
 			gameFinished : True if game is finished (Win or Tie). False otherwise.
@@ -12,9 +18,21 @@ class Game:
 		"""	
 
 		self._players = players
-		self._gameFinished = gameFinished
-		self._gameGrid = self.createGameGrid()
-		self._totalPlacedTokens = totalPlacedTokens
+		self._gameFinished = False
+		self._gameGrid = [ 
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+			]
+		self._totalPlacedTokens = 0
+		self._totalTimeOfGame = 0
 
 	def getgameFinished(self):
 		"""returns the gameFinished"""
@@ -28,37 +46,18 @@ class Game:
 		"""returns the total placed tokens"""
 		return self._totalPlacedTokens
 
-	def setgameFinished(self):
-		"""sets the gameFinished"""
-		return self._gameFinished
+	def setgameFinished(self,gameFinished):
+		"""sets the gameFinished status """
+		self._gameFinished = gameFinished
 
-	def setGameGrid(self):
-		"""returns the gameGrid"""
-		return self._gameGrid
+	def setGameGrid(self,gameGrid):
+		"""sets the gameGrid"""
+		self._gameGrid = gameGrid
 
-	def setTotalPlacedTokens(self,x,y):
-		"""returns the total placed tokens"""
-		return self._totalPlacedTokens
+	def setTotalPlacedTokens(self,totalPlacedTokens):
+		"""sets the total placed tokens"""
+		self._totalPlacedTokens = totalPlacedTokens
 		
-	def createGameGrid(self):
-		"""Set gameGrid to a multidimensional 12x10 list and initiate elements to empty string.
-			newGrid : a tuple of dictionaries. The tuples represent the rows, and each dictionary contains the pairs (Keys: A - Z , Values: Token object)
-		"""
-		newGrid = (
-					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
-					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
-					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
-					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
-					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
-					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
-					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
-					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
-					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
-					{"A":None,"B":None,"C":None,"D":None,"E":None,"F":None,"G":None,"H":None,"I":None,"J":None,"K":None,"L":None},
-				)
-
-		return newGrid
-
 	def printGameGrid(self):
 
 		"""prints the gameGrid as a 10 x 12 matrix"""
@@ -71,7 +70,7 @@ class Game:
 			print(i, end="  ") # print row number and space
 
 			for j in range(len(self._gameGrid[i])):
-				print(self._gameGrid[i][keys[j]]," ",end="")
+				print(self._gameGrid[i][j]," ",end="")
 
 			print("\n")	# skip a line once a row has been printed for next row
 
@@ -82,11 +81,25 @@ class Game:
 
 		print("\n") #skip a line 
 
+	def updateGameGrid(self,token,newPosition,moveType):
+		"""
+		updates game grid with new token or move.
+		if placing token:get coordinates of old tokenset game grid position
+		"""
+
+		if moveType == "place":
+			
+			token.set_tokenPosition(newPosition)
+			self.gameGrid[i][j] = token
+
+		print("Here is the updated gameGrid")
+		printGameGrid(self)
 
 	def checkState(self,Token):
 		"""checks the current gameFinished to see if there is a win or tie, based on last token added."""
-
+		
 
 if __name__ == "__main__":
 	g1 = Game("","","","")
 	g1.printGameGrid()
+
