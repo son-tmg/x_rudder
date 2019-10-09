@@ -1,4 +1,4 @@
-import Token
+import Game, Token
 
 class Player:
     """A Player in the Game"""
@@ -7,14 +7,17 @@ class Player:
         """
         New instance of a PLayer
 
-        playerName  Name of player, or named AI if Player vs AI is chosen.
-        nbTokens    Number of tokens the current player has remaining to play.
-        nbMoves     Number of moves the current player has played.
-        moveTime    Time taken to make a move (Feature for AI player only).
+        playerName      Name of player, or named AI if Player vs AI is chosen.
+        playerColour    Colour of the player and their tokens
+        playerTokens    List of tokens belonging to the player
+        nbTokens        Number of tokens the current player has remaining to play.
+        nbMoves         Number of moves the current player has played.
+        moveTime        Time taken to make a move (Feature for AI player only).
         """
 
         self._playerName = playerName
         self._playerColour = playerColour
+        self._playerTokens = []
         self._nbTokens = 15
         self._nbMoves = 0
         self._moveTime = 0
@@ -26,6 +29,10 @@ class Player:
     def get_playerColour(self):
         """Return the colour of the player"""
         return self._playerColour
+
+    def get_playerTokens(self):
+        """Return the colour of the player"""
+        return self._playerTokens
 
     def get_nbTokens(self):
         """Return the number of tokens of the player"""
@@ -39,13 +46,13 @@ class Player:
         """Return the time took for the player/AI to make a move"""
         return self._moveTime
 
+
+
     def InitializeTokenList(self):
         """Initializes the token list of the player"""
 
-        PlayerTokens = []
         for i in range(15):
-            PlayerTokens.append(Token(self.playerColour, 0)) #The token coordinate argument is set to 0, need to be changed WIP
-
+            self._playerTokens.append(Token.Token(self._playerColour, [None, None]))
 
     def placeToken(self, Token, position):
         """
