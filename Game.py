@@ -59,27 +59,26 @@ class Game:
 		self._totalPlacedTokens = totalPlacedTokens
 		
 	def printGameGrid(self):
-
 		"""prints the gameGrid as a 10 x 12 matrix"""
+		keys = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"]
+
 		print("\n")
-		
-		keys = ["A","B","C","D","E","F","G","H","I","J","K","L"]
 
 		for i in range(len(self._gameGrid)):
-			
-			print(i, end="  ") # print row number and space
+
+			print(10-i, end="  ") # print row number and space
 
 			for j in range(len(self._gameGrid[i])):
 				print(self._gameGrid[i][j]," ",end="")
 
 			print("\n")	# skip a line once a row has been printed for next row
 
-			#when all rows have been printed, print a row of the keys 
+			#when all rows have been printed, print a row of the keys
 			if i == 9:
 				for i in range(12):
-					print('{:>5}'.format(keys[i]),end=" ")	
+					print('{:>5}'.format(keys[i]),end=" ")
 
-		print("\n") #skip a line 
+		return "\n" #skip a line
 
 	def updateGameGrid(self,token,newPosition,moveType):
 		"""
@@ -88,7 +87,7 @@ class Game:
 		"""
 
 		if moveType == "place":
-			
+
 			token.set_tokenPosition(newPosition)
 			self.gameGrid[i][j] = token
 
@@ -97,9 +96,4 @@ class Game:
 
 	def checkState(self,Token):
 		"""checks the current gameFinished to see if there is a win or tie, based on last token added."""
-		
-
-if __name__ == "__main__":
-	g1 = Game("","","","")
-	g1.printGameGrid()
 
