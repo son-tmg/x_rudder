@@ -31,6 +31,8 @@ if __name__ == "__main__":
             newGame = Game.Game(Players)
             print("\n\n", newGame.printGameGrid())
 
+            Player1.placeToken(i.get_playerTokens(), [1,1])
+
 
 
 

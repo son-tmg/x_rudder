@@ -86,13 +86,14 @@ class Game:
 		if placing token:get coordinates of old tokenset game grid position
 		"""
 
-		if moveType == "place":
-
+		if moveType == "placement":
+			i = newPosition[0]
+			j = newPosition[1]
 			token.set_tokenPosition(newPosition)
 			self.gameGrid[i][j] = token
 
 		print("Here is the updated gameGrid")
-		printGameGrid(self)
+		self.printGameGrid()
 
 	def checkState(self,Token):
 		"""checks the current gameFinished to see if there is a win or tie, based on last token added."""

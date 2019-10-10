@@ -54,28 +54,29 @@ class Player:
         for i in range(15):
             self._playerTokens.append(Token.Token(self._playerColour, [None, None]))
 
-    def placeToken(self, Token, position):
+    def placeToken(self, _playerTokens, new_position):
         """
         Method to Place an unused token on the game grid
 
-        Token           Token object used to place on the game grid
-        Token.position  Token coordinates to place on the game grid
+        playerTokens    List of tokens belonging to the player
+        position        Position coordinate to place the token
         """
-        if Token.placed == True:
-            x = input(print("Token has already been placed. Would you like to move it (Yes or No)"))
-            if x.casefold() == "yes":
-                self.moveToken(Token, position) #WIP
-            else:
-                y = input(print("Choose another Token."))
-                self.placeToken(y, [1,"A"])   #For coordinate, place a list as the argument, 1st arg. being 1-10, 2nd being A-L
+        if not _playerTokens:
+            position = input("No more tokens are available to place. Please indicate which token from the grid" +
+                            " you would like to move by inputting its position coordinate. ")
+            new_position = input("Now input the position coordinate that you would like to move the token to.")
+            self.moveToken(position, new_position)
         else:
-            moveType = "place"
-            #updateGameGrid(Token, position)  #WIP
-            #   -----> printGameGrod()
-            #checkState(Token)
+            token = _playerTokens[0]
+            _playerTokens.pop(0)
 
+            if Game._gameGrid[new_position[0]][new_position[1]] == None:
+                Game.updateGameGrid(token, new_position, "placement")
+                #checkState()  NEEDS TO BE IMPLEMENTED
+            else:
+                print("GANG")
 
-    def moveToken(self, Token, position):
+    def moveToken(self, position, new_position):
         """
         Method to move a used token on the game grid
 
