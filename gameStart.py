@@ -1,10 +1,9 @@
 import Game, Player, Token
-from Player import Player
+
 if __name__ == "__main__":
     startState = False
     Players = []
 
-    print("----------------------------------------------------------------------------------------------------")
     print("----------------------------------------------------------------------------------------------------")
     print("Welcome to the 2-player game called X-Rudder.\n")
 
@@ -14,20 +13,45 @@ if __name__ == "__main__":
         if gameMode == "1":
             startState = True
 
-            Player1Name = input("\nWelcome Player 1, please enter your name: ")
-            Player1 = Player(Player1Name, "\u2588")
+            Player1Name = input("\n\nWelcome Player 1, please enter your name: ")
+            Player1 = Player.Player(Player1Name, "\u2588")
             Players.append(Player1)
 
             Player2Name = input("\nWelcome Player 2, please enter your name: ")
-            Player2 = Player(Player2Name, "\u2591")
+            Player2 = Player.Player(Player2Name, "\u2591")
             Players.append(Player2)
+
+            print("\n")
 
             for i in Players:
                 i.InitializeTokenList()
-                print("\n", i.get_playerName(), i.get_playerColour(), i.get_playerTokens(), i.get_nbTokens())
+                print("\nWelcome", i.get_playerName(), ", you will be playing in the token colour", i.get_playerColour(), ", with the starting amount of", i.get_nbTokens(), "tokens.")
 
-            print("\nStarting a new game session.")
-            #newGame = Game()
+            print("\n\n\n-------------------------------------------------- Starting a new game session. --------------------------------------------------\n")
+            newGame = Game.Game(Players)
+            print("\n\n", newGame.printGameGrid())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         elif gameMode == "2":
             startState = True

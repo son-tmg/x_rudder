@@ -46,7 +46,7 @@ class Player:
         """Return the time took for the player/AI to make a move"""
         return self._moveTime
 
-
+    #----------------------------------------------------------------------------------------------------
 
     def InitializeTokenList(self):
         """Initializes the token list of the player"""
