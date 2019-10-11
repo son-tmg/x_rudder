@@ -69,7 +69,10 @@ class Game:
 			print(10-i, end="  ") # print row number and space
 
 			for j in range(len(self._gameGrid[i])):
-				print(self._gameGrid[i][j]," ",end="")
+				if self._gameGrid[i][j] is None:
+					print(self._gameGrid[i][j], " ", end="")
+				else:
+					print(self._gameGrid[i][j].get_tokenColour(), " ", end="")
 
 			print("\n")	# skip a line once a row has been printed for next row
 
@@ -80,7 +83,7 @@ class Game:
 
 		return "\n" #skip a line
 
-	def updateGameGrid(self,token,newPosition,moveType):
+	def updateGameGrid(self, token, newPosition, moveType):
 		"""
 		updates game grid with new token or move.
 		if placing token:get coordinates of old tokenset game grid position
@@ -90,7 +93,7 @@ class Game:
 			i = newPosition[0]
 			j = newPosition[1]
 			token.set_tokenPosition(newPosition)
-			self.gameGrid[i][j] = token
+			self._gameGrid[i][j] = token
 
 		print("Here is the updated gameGrid")
 		self.printGameGrid()

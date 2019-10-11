@@ -14,11 +14,11 @@ if __name__ == "__main__":
             startState = True
 
             Player1Name = input("\n\nWelcome Player 1, please enter your name: ")
-            Player1 = Player.Player(Player1Name, "\u2588")
+            Player1 = Player.Player(Player1Name, "\u2588   ")
             Players.append(Player1)
 
             Player2Name = input("\nWelcome Player 2, please enter your name: ")
-            Player2 = Player.Player(Player2Name, "\u2591")
+            Player2 = Player.Player(Player2Name, "\u2591   ")
             Players.append(Player2)
 
             print("\n")
@@ -31,7 +31,7 @@ if __name__ == "__main__":
             newGame = Game.Game(Players)
             print("\n\n", newGame.printGameGrid())
 
-            Player1.placeToken(i.get_playerTokens(), [1,1])
+            Player1.placeToken(newGame, i.get_playerTokens(), [1,1])
 
 
 

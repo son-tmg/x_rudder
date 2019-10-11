@@ -54,7 +54,7 @@ class Player:
         for i in range(15):
             self._playerTokens.append(Token.Token(self._playerColour, [None, None]))
 
-    def placeToken(self, _playerTokens, new_position):
+    def placeToken(self, game, _playerTokens, new_position):
         """
         Method to Place an unused token on the game grid
 
@@ -70,11 +70,13 @@ class Player:
             token = _playerTokens[0]
             _playerTokens.pop(0)
 
-            if Game._gameGrid[new_position[0]][new_position[1]] == None:
-                Game.updateGameGrid(token, new_position, "placement")
+            if game._gameGrid[new_position[0]][new_position[1]] is None:
+                game.updateGameGrid(token, new_position, "placement")
                 #checkState()  NEEDS TO BE IMPLEMENTED
             else:
-                print("GANG")
+                new_position = input("The position you have requested to add your token at already has a token on it. " +
+                                     "Please input a new position coordinate. ")
+                self.placeToken(game, _playerTokens, new_position)
 
     def moveToken(self, position, new_position):
         """
