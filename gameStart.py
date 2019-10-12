@@ -48,13 +48,32 @@ if __name__ == "__main__":
                             Position2 = input("\nPlease pick which column you would like to place your token in (Select from A to L): ").lower()
                         Position2 = ord(Position2.lower()) - 97
                         placementPosition.append(Position2)
+
                         i.placeToken(newGame, i.get_playerTokens(), placementPosition)
 
                     elif turnType == "2":
-                        movementPosition = []
+                        chosenToken, movementPosition = [], []
+                        print("You will now input the coordinates of the Token you would like to have moved.")
+                        while Position1 not in rows:
+                            Position1 = input("\nPlease pick which token you would like to move by specifying the row it is in (Select from 1 to 10): ")
+                        chosenToken.append(10 - int(Position1))
+                        while Position2 not in columns:
+                            Position2 = input("\nPlease pick which token you would like to move by specifying the column it is in (Select from A to L): ").lower()
+                        Position2 = ord(Position2.lower()) - 97
+                        chosenToken.append(Position2)
 
+                        Position1, Position2 = "", ""
 
+                        print("You will now input the coordinates of the position you would like to move your specified token to.")
+                        while Position1 not in rows:
+                            Position1 = input("\nPlease pick which row you would like to place your token in (Select from 1 to 10): ")
+                        movementPosition.append(10 - int(Position1))
+                        while Position2 not in columns:
+                            Position2 = input("\nPlease pick which column you would like to place your token in (Select from A to L): ").lower()
+                        Position2 = ord(Position2.lower()) - 97
+                        movementPosition.append(Position2)
 
+                        i.moveToken(newGame, chosenToken, movementPosition)
 
         elif gameMode == "2":
             startState = True

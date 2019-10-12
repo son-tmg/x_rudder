@@ -78,7 +78,7 @@ class Player:
                                      "Please input a new position coordinate. ")
                 self.placeToken(game, playerTokens, newPosition)
 
-    def moveToken(self, position, new_position):
+    def moveToken(self, game, oldPosition, newPosition):
         """
         Method to move a used token on the game grid
 
