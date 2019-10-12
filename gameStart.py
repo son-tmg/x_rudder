@@ -3,6 +3,8 @@ import Game, Player, Token
 if __name__ == "__main__":
     startState = False
     Players = []
+    rows = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+    columns = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"]
 
     print("----------------------------------------------------------------------------------------------------")
     print("Welcome to the 2-player game called X-Rudder.\n")
@@ -33,14 +35,17 @@ if __name__ == "__main__":
 
             while not newGame.getgameFinished():
                 for i in Players:
-                    turnType = ""
+                    turnType, Position1, Position2 = "", "", ""
                     while turnType != ("1" or "2"):
                         turnType = input("\n\n" + (i.get_playerName() + ", it is your turn to play. Would you like to make a placement or a movement of a token? (1-Placement, 2-Movement): "))
+
                     if turnType == "1":
                         placementPosition = []
-                        Position1 = input("\nPlease pick which row you would like to place your token in (Select from 1 to 10): ")
+                        while Position1 not in rows:
+                            Position1 = input("\nPlease pick which row you would like to place your token in (Select from 1 to 10): ")
                         placementPosition.append(10 - int(Position1))
-                        Position2 = input("\nPlease pick which column you would like to place your token in (Select from A to L): ")
+                        while Position2 not in columns:
+                            Position2 = input("\nPlease pick which column you would like to place your token in (Select from A to L): ").lower()
                         Position2 = ord(Position2.lower()) - 97
                         placementPosition.append(Position2)
                         i.placeToken(newGame, i.get_playerTokens(), placementPosition)
