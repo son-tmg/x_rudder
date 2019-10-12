@@ -14,41 +14,39 @@ if __name__ == "__main__":
             startState = True
 
             Player1Name = input("\n\nWelcome Player 1, please enter your name: ")
-            Player1 = Player.Player(Player1Name, "\u2588")
+            Player1 = Player.Player(Player1Name, "\u2588   ")
             Players.append(Player1)
 
             Player2Name = input("\nWelcome Player 2, please enter your name: ")
-            Player2 = Player.Player(Player2Name, "\u2591")
+            Player2 = Player.Player(Player2Name, "\u2591   ")
             Players.append(Player2)
 
             print("\n")
 
             for i in Players:
                 i.InitializeTokenList()
-                print("\nWelcome", i.get_playerName(), ", you will be playing in the token colour", i.get_playerColour(), ", with the starting amount of", i.get_nbTokens(), "tokens.")
+                print("\nWelcome", i.get_playerName(), ", you will be playing in the token colour", i.get_playerColour().strip(), ", with the starting amount of", i.get_nbTokens(), "tokens.")
 
             print("\n\n\n-------------------------------------------------- Starting a new game session. --------------------------------------------------\n")
             newGame = Game.Game(Players)
             print("\n\n", newGame.printGameGrid())
 
+            while not newGame.getgameFinished():
+                for i in Players:
+                    turnType = ""
+                    while turnType != ("1" or "2"):
+                        turnType = input("\n\n" + (i.get_playerName() + ", it is your turn to play. Would you like to make a placement or a movement of a token? (1-Placement, 2-Movement): "))
+                    if turnType == "1":
+                        placementPosition = []
+                        Position1 = input("\nPlease pick which row you would like to place your token in (Select from 1 to 10): ")
+                        placementPosition.append(10 - int(Position1))
+                        Position2 = input("\nPlease pick which column you would like to place your token in (Select from A to L): ")
+                        Position2 = ord(Position2.lower()) - 97
+                        placementPosition.append(Position2)
+                        i.placeToken(newGame, i.get_playerTokens(), placementPosition)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    elif turnType == "2":
+                        movementPosition = []
 
 
 
