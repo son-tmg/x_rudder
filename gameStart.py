@@ -53,14 +53,31 @@ if __name__ == "__main__":
 
                     elif turnType == "2":
                         chosenToken, movementPosition = [], []
-                        print("You will now input the coordinates of the Token you would like to have moved.")
-                        while Position1 not in rows:
-                            Position1 = input("\nPlease pick which token you would like to move by specifying the row it is in (Select from 1 to 10): ")
-                        chosenToken.append(10 - int(Position1))
-                        while Position2 not in columns:
-                            Position2 = input("\nPlease pick which token you would like to move by specifying the column it is in (Select from A to L): ").lower()
-                        Position2 = ord(Position2.lower()) - 97
-                        chosenToken.append(Position2)
+                        while newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] is None or newGame.getGameGrid()[chosenToken[0]][chosenToken[1]].get_tokenColour() != i.get_playerColour():
+                            print("You will now input the coordinates of the Token you would like to have moved.")
+                            while Position1 not in rows:
+                                Position1 = input("\nPlease pick which token you would like to move by specifying the row it is in (Select from 1 to 10): ")
+                            chosenToken.append(10 - int(Position1))
+                            while Position2 not in columns:
+                                Position2 = input("\nPlease pick which token you would like to move by specifying the column it is in (Select from A to L): ").lower()
+                            Position2 = ord(Position2.lower()) - 97
+                            chosenToken.append(Position2)
+
+                            if newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] == None or newGame.getGameGrid()[chosenToken[0]][chosenToken[1]].get_tokenColour() != i.get_playerColour():
+                                print("Your token could not be found at the specified coordinate. Please re-enter the coordinate of the token you would like to move.")
+                                """if game._gameGrid[oldPosition[0]][oldPosition[1]] is None:
+                                    Position1, Position2 = "", ""
+                                    print(
+                                        "The token you have requested to move is not at the specified location. Please re-enter a new coordinate of a token currently placed on the grid.")
+                                    while Position1 not in gameStart.rows:
+                                        Position1 = input(
+                                            "\nPlease pick which row you would like to place your token in (Select from 1 to 10): ")
+                                    oldPosition.append(10 - int(Position1))
+                                    while Position2 not in gameStart.columns:
+                                        Position2 = input(
+                                            "\nPlease pick which column you would like to place your token in (Select from A to L): ").lower()
+                                    Position2 = ord(Position2.lower()) - 97
+                                    oldPosition.append(Position2)"""
 
                         Position1, Position2 = "", ""
 
@@ -73,7 +90,7 @@ if __name__ == "__main__":
                         Position2 = ord(Position2.lower()) - 97
                         movementPosition.append(Position2)
 
-                        i.moveToken(newGame, chosenToken, movementPosition)
+                        i.moveToken(newGame, i.get_playerColour(), chosenToken, movementPosition)
 
         elif gameMode == "2":
             startState = True
