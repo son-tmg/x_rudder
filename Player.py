@@ -72,7 +72,7 @@ class Player:
 
             if game._gameGrid[newPosition[0]][newPosition[1]] is None:
                 game.updateGameGrid(token, newPosition, "placement")
-                #checkState()  NEEDS TO BE IMPLEMENTED
+                game.checkState(token) 
             else:
                 new_position = input("The position you have requested to add your token at already has a token on it. " +
                                      "Please input a new position coordinate. ")
