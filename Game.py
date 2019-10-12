@@ -98,7 +98,6 @@ class Game:
 			token.set_tokenPosition(newPosition)
 			self._gameGrid[i][j] = token
 
-		print("Here is the updated gameGrid")
 		self.printGameGrid()
 
 
@@ -106,6 +105,7 @@ class Game:
 		"""checks to see if the last token that was placed or moved generated a wining state
 		
 			Token : token of a player
+			return : nothing
 		"""
 
 		i = token.get_tokenPosition()[0]	#row
@@ -149,68 +149,77 @@ class Game:
 		#Refactor into 2 seperate functions : checking which of the 5 cases and
 
 
-
-		# if center, cannot be on row 0 or 
-
+		#center
 		if ( 1<=i<=8 and 1<=j<=10):
 			if (
-				self._gameGrid[i+1,j+1] != None or self._gameGrid[i+1,j+1].get_tokenColour == token.get_tokenColour or
-				self._gameGrid[i+1,j-1] != None or self._gameGrid[i+1,j-1].get_tokenColour == token.get_tokenColour or
-				self._gameGrid[i-1,j+1] != None or self._gameGrid[i-1,j+1].get_tokenColour == token.get_tokenColour or 
-				self._gameGrid[i-1,j-1] != None or self._gameGrid[i-1,j-1].get_tokenColour == token.get_tokenColour
+				self._gameGrid[i+1][j+1] != None and self._gameGrid[i+1][j+1].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i+1][j-1] != None and self._gameGrid[i+1][j-1].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i-1][j+1] != None and self._gameGrid[i-1][j+1].get_tokenColour() == token.get_tokenColour() and 
+				self._gameGrid[i-1][j-1] != None and self._gameGrid[i-1][j-1].get_tokenColour() == token.get_tokenColour()
 			):
-				if self._gameGrid[i,j-1].get_tokenColour == token.getTokenColour and self._gameGrid[i,j+1].get_tokenColour == token.getTokenColour:
-					print("A Winner was found after placing a token at center of X")
-					return True
-			
-		# if top left
+				if (
+					self._gameGrid[i][j-1] == None or self._gameGrid[i][j-1].get_tokenColour() == token.get_tokenColour() or 
+					self._gameGrid[i][j+1] == None or self._gameGrid[i][j+1].get_tokenColour() == token.get_tokenColour()
+					):
+						print("A Winner was found after placing a token at center of X")
+						self.setgameFinished(True)
 
-		elif (0<=i<=7 and 0<=j<=9):
+		#top left						
+		if (0<=i<=7 and 0<=j<=9):		
 			if(
-				self._gameGrid[i,j+2] != None or self._gameGrid[i,j+2].get_tokenColour == token.get_tokenColour or
-				self._gameGrid[i+1,j+1] != None or self._gameGrid[i+1,j+1].get_tokenColour == token.get_tokenColour or
-				self._gameGrid[i+2,j] != None or self._gameGrid[i+2,j].get_tokenColour == token.get_tokenColour or 
-				self._gameGrid[i+2,j+2] != None or self._gameGrid[i+2,j+2].get_tokenColour == token.get_tokenColour
+				self._gameGrid[i][j+2] != None and self._gameGrid[i][j+2].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i+1][j+1] != None and self._gameGrid[i+1][j+1].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i+2][j] != None and self._gameGrid[i+2][j].get_tokenColour() == token.get_tokenColour() and 
+				self._gameGrid[i+2][j+2] != None and self._gameGrid[i+2][j+2].get_tokenColour() == token.get_tokenColour()
 			):
-				if self._gameGrid[i+1,j].get_tokenColour == token.getTokenColour and self._gameGrid[i+1,j+2].get_tokenColour == token.getTokenColour:
-					print("A Winner was found after placing token at top left of X")
-					return True
+				if (
+					self._gameGrid[i+1][j] == None or self._gameGrid[i+1][j].get_tokenColour() == token.get_tokenColour() or
+					self._gameGrid[i+1][j+2] == None or self._gameGrid[i+1][j+2].get_tokenColour() == token.get_tokenColour()
+					):
+						print("A Winner was found after placing token at top left of X")
+						self.setgameFinished(True)
 
-		# if top right
-		elif (0<=i<=7 and 2<=j<=11):
+		#top right
+		if (0<=i<=7 and 2<=j<=11):		
 			if (
-				self._gameGrid[i,j-2] != None or self._gameGrid[i,j-2].get_tokenColour == token.get_tokenColour or
-				self._gameGrid[i+1,j-1] != None or self._gameGrid[i+1,j-1].get_tokenColour == token.get_tokenColour or
-				self._gameGrid[i+2,j-2] != None or self._gameGrid[i+2,j-2].get_tokenColour == token.get_tokenColour or 
-				self._gameGrid[i-2,j] != None and self._gameGrid[i-2,j].get_tokenColour == token.get_tokenColour
+				self._gameGrid[i][j-2] != None and self._gameGrid[i][j-2].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i+1][j-1] != None and self._gameGrid[i+1][j-1].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i+2][j-2] != None and self._gameGrid[i+2][j-2].get_tokenColour() == token.get_tokenColour() and 
+				self._gameGrid[i-2][j] != None and self._gameGrid[i-2][j].get_tokenColour() == token.get_tokenColour()
 			):
-				if self._gameGrid[i+1,j].get_tokenColour == token.getTokenColour and self._gameGrid[i+1,j-2].get_tokenColour == token.getTokenColour:
-					print("A Winner was found after placing token at top right of X")
-					return True
-
-
-		# if bottom left
-		elif (2<=i<=9 and 0<=j<=9):
+				if (
+					self._gameGrid[i+1][j] == None or self._gameGrid[i+1][j].get_tokenColour() == token.get_tokenColour() or
+					self._gameGrid[i+1][j-2] == None or self._gameGrid[i+1][j-2].get_tokenColour() == token.get_tokenColour()
+					):
+						print("A Winner was found after placing token at top right of X")
+						self.setgameFinished(True)
+		
+		#bottom left
+		if (2<=i<=9 and 0<=j<=9):
 			if (
-				self._gameGrid[i-2,j] != None or self._gameGrid[i-2,j].get_tokenColour == token.get_tokenColour or
-				self._gameGrid[i,j+2] != None or self._gameGrid[i,j+2].get_tokenColour == token.get_tokenColour or
-				self._gameGrid[i-1,j+1] != None or self._gameGrid[i-1,j+1].get_tokenColour == token.get_tokenColour or 
-				self._gameGrid[i-2,j+2] != None or self._gameGrid[i-2,j+2].get_tokenColour == token.get_tokenColour
+				self._gameGrid[i-2][j] != None and self._gameGrid[i-2][j].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i][j+2] != None and self._gameGrid[i][j+2].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i-1][j+1] != None and self._gameGrid[i-1][j+1].get_tokenColour() == token.get_tokenColour() and 
+				self._gameGrid[i-2][j+2] != None and self._gameGrid[i-2][j+2].get_tokenColour() == token.get_tokenColour()
 			):
-				if self._gameGrid[i-1,j].get_tokenColour == token.getTokenColour and self._gameGrid[i-1,j+2].get_tokenColour == token.getTokenColour:
-					print("A Winner was found after placing token at center of X")
-					return True
+				if (
+					self._gameGrid[i-1][j] == None or self._gameGrid[i-1][j].get_tokenColour() == token.get_tokenColour() or
+					self._gameGrid[i-1][j+2] == None or self._gameGrid[i-1][j+2].get_tokenColour() == token.get_tokenColour()
+					):
+						print("A Winner was found after placing token at bottom left of X")
+						self.setgameFinished(True)
 
-		# if bottom right
-		elif (2<=i<=9 and 2<=j<=11):
+		#bottom right			
+		if (2<=i<=9 and 2<=j<=11):		
 			if (
-				self._gameGrid[i-2,j] != None or self._gameGrid[i-2,j].get_tokenColour == token.get_tokenColour or
-				self._gameGrid[i-1,j-1] != None or self._gameGrid[i-1,j-1].get_tokenColour == token.get_tokenColour or
-				self._gameGrid[i,j-2] != None or self._gameGrid[i,j-2].get_tokenColour == token.get_tokenColour or 
-				self._gameGrid[i-2,j+2] != None or self._gameGrid[i-2,j+2].get_tokenColour == token.get_tokenColour
+				self._gameGrid[i-2][j] != None and self._gameGrid[i-2][j].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i-1][j-1] != None and self._gameGrid[i-1][j-1].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i][j-2] != None and self._gameGrid[i][j-2].get_tokenColour() == token.get_tokenColour() and 
+				self._gameGrid[i-2][j-2] != None and self._gameGrid[i-2][j-2].get_tokenColour() == token.get_tokenColour()
 			):
-				if self._gameGrid[i-1,j].get_tokenColour == token.getTokenColour and self._gameGrid[i-1,j-2].get_tokenColour == token.getTokenColour:
-					print("A Winner was found after placing token at bottom right of X")
-					return True
-
-		return False
+				if (
+					self._gameGrid[i-1][j] == None or self._gameGrid[i-1][j].get_tokenColour() == token.get_tokenColour() or
+					self._gameGrid[i-1][j-2] == None or self._gameGrid[i-1][j-2].get_tokenColour() == token.get_tokenColour()
+					):
+						print("A Winner was found after placing token at bottom right of X")
+						self.setgameFinished(True)
