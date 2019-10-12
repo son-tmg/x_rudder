@@ -101,7 +101,7 @@ class Game:
 	def checkState(self,token):
 		"""checks to see if the last token that was placed or moved generated a wining state
 		
-			Token : Token of the current player
+			Token : token of a player
 		"""
 
 		i = token.get_tokenPosition()	#row
