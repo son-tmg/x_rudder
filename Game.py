@@ -99,7 +99,7 @@ class Game:
 
 
 	def checkState(self,token):
-		"""checks the current gameFinished to see if there is a win or tie, based on last token added.
+		"""checks to see if the last token that was placed or moved generated a wining state
 		
 			Token : Token of the current player
 		"""
@@ -108,39 +108,39 @@ class Game:
 		j = token.get_tokenPosition()	#column
 
 		"""
+			center Token
+				if 1<= i <= 8 and 1<=j<=10:
+					if top right, top left, bottom left, bottom right is not None and token at that position is same colour as current token
+						if token at left and right of center is same colour
+							return True
 
-				center Token
-					if 1<= i <= 8 and 1<=j<=10:
-						if top right, top left, bottom left, bottom right is not None and token at that position is same colour as current token
-							if token at left and right of center is same colour
-								return True
+			top left token
+				if 0<= i <= 7 and 0<=j<=9:
+					if top right, top left, bottom left, bottom right is not None and token at that position is same colour as current token
+						if token at left and right of center is same colour
+							return True
 
-				top left token
-					if 0<= i <= 7 and 0<=j<=9:
-						if top right, top left, bottom left, bottom right is not None and token at that position is same colour as current token
-							if token at left and right of center is same colour
-								return True
+			top right token
+				if 0<= i <= 7 and 2<=j<=11:
+					if top right, top left, bottom left, bottom right is not None and token at that position is same colour as current token
+						if token at left and right of center is same colour
+							return True
 
-				top right token
-					if 0<= i <= 7 and 2<=j<=11:
-						if top right, top left, bottom left, bottom right is not None and token at that position is same colour as current token
-							if token at left and right of center is same colour
-								return True
-
-				bottom left token
-					if 2<= i <= 9 and 0<=j<=9:
-						if top right, top left, bottom left, bottom right is not None and token at that position is same colour as current token
-							if token at left and right of center is same colour
-								return True
+			bottom left token
+				if 2<= i <= 9 and 0<=j<=9:
+					if top right, top left, bottom left, bottom right is not None and token at that position is same colour as current token
+						if token at left and right of center is same colour
+							return True
 
 
-				bottom right token
-					if 2<=i<= 9 and 2<=j<=11:
-						if top right, top left, bottom left, bottom right is not None and token at that position is same colour as current token
-							if token at left and right of center is same colour
-								return True				
+			bottom right token
+				if 2<=i<= 9 and 2<=j<=11:
+					if top right, top left, bottom left, bottom right is not None and token at that position is same colour as current token
+						if token at left and right of center is same colour
+							return True				
 		"""  
 
+		"""WIP : What happens if we crossed out an oppsing X, but move one of the 2 crossing tokens and generate a win for the other player ? """
 
 		#Refactor into 2 seperate functions : checking which of the 5 cases and
 
