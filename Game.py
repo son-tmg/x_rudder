@@ -206,7 +206,7 @@ class Game:
 					self._gameGrid[i-1][j] == None or self._gameGrid[i-1][j].get_tokenColour() == token.get_tokenColour() or
 					self._gameGrid[i-1][j+2] == None or self._gameGrid[i-1][j+2].get_tokenColour() == token.get_tokenColour()
 					):
-						print("A Winner was found after placing token at bottem left of X")
+						print("A Winner was found after placing token at bottom left of X")
 						self.setgameFinished(True)
 
 		#bottom right			
