@@ -63,9 +63,9 @@ class Player:
         """
         if not playerTokens:
             position = input("No more tokens are available to place. Please indicate which token from the grid" +
-                            " you would like to move by inputting its position coordinate. ")
-            newPosition = input("Now input the position coordinate that you would like to move the token to.")
-            self.moveToken(position, newPosition)
+                             " you would like to move by inputting its position coordinate (e.g. 1,A): ").split(",")
+            newPosition = input("Now input the position coordinate that you would like to move the token to (e.g. 1,A): ").split(",")
+            self.moveToken(game, position, newPosition)
         else:
             token = playerTokens[0]
             playerTokens.pop(0)
@@ -75,10 +75,10 @@ class Player:
                 game.checkState(token) 
             else:
                 new_position = input("The position you have requested to add your token at already has a token on it. " +
-                                     "Please input a new position coordinate. ")
+                                     "Please input a new position coordinate (e.g. 1,A): ").split(",")
                 self.placeToken(game, playerTokens, newPosition)
 
-    def moveToken(self, game, playerColour, oldPosition, newPosition):
+    def moveToken(self, game, oldPosition, newPosition):
         """
         Method to move a used token on the game grid
 
