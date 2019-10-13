@@ -185,7 +185,7 @@ class Game:
 				self._gameGrid[i][j-2] != None and self._gameGrid[i][j-2].get_tokenColour() == token.get_tokenColour() and
 				self._gameGrid[i+1][j-1] != None and self._gameGrid[i+1][j-1].get_tokenColour() == token.get_tokenColour() and
 				self._gameGrid[i+2][j-2] != None and self._gameGrid[i+2][j-2].get_tokenColour() == token.get_tokenColour() and 
-				self._gameGrid[i-2][j] != None and self._gameGrid[i-2][j].get_tokenColour() == token.get_tokenColour()
+				self._gameGrid[i+2][j] != None and self._gameGrid[i+2][j].get_tokenColour() == token.get_tokenColour()
 			):
 				if (
 					self._gameGrid[i+1][j] == None or self._gameGrid[i+1][j].get_tokenColour() == token.get_tokenColour() or
