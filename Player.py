@@ -91,3 +91,17 @@ class Player:
         if game._gameGrid[newPosition[0]][newPosition[1]] is None:
             game.updateGameGrid(token, newPosition, "placement")
             game.checkState(token)
+
+            """if game._gameGrid[oldPosition[0]][oldPosition[1]] is None:
+            Position1, Position2 = "", ""
+            print(
+                "The token you have requested to move is not at the specified location. Please re-enter a new coordinate of a token currently placed on the grid.")
+            while Position1 not in gameStart.rows:
+                Position1 = input(
+                    "\nPlease pick which row you would like to place your token in (Select from 1 to 10): ")
+            oldPosition.append(10 - int(Position1))
+            while Position2 not in gameStart.columns:
+                Position2 = input(
+                    "\nPlease pick which column you would like to place your token in (Select from A to L): ").lower()
+            Position2 = ord(Position2.lower()) - 97
+            oldPosition.append(Position2)"""
