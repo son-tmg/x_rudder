@@ -63,13 +63,8 @@ class Player:
         """
         token = playerTokens[0]
         playerTokens.pop(0)
-        if game.getGameGrid()[newPosition[0]][newPosition[1]] is None:
-            game.updateGameGrid(token, newPosition)
-            game.checkState(token)
-        else:
-            newPosition = input("The position you have requested to add your token at already has a token on it. " +
-                                 "Please input a new position coordinate (e.g. 1,A): ").split(",")
-            self.placeToken(game, playerTokens, newPosition)
+        game.updateGameGrid(token, newPosition)
+        game.checkState(token)
 
     def moveToken(self, game, oldPosition, newPosition):
         """
