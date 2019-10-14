@@ -1,4 +1,4 @@
-import Game, Player, Token
+import Game, Player, Token, math
 
 if __name__ == "__main__":
     startState = False
@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
                     if turnType == "1":
                         while len(placementPosition) == 0 or newGame.getGameGrid()[placementPosition[0]][placementPosition[1]] is not None:
-                            placementPosition = []
+                            placementPosition, Position1, Position2 = [], "", ""
                             while Position1 not in rows:
                                 Position1 = input("\nPlease pick which row you would like to place your token in (Select from 1 to 10): ")
                             placementPosition.append(10 - int(Position1))
@@ -76,34 +76,21 @@ if __name__ == "__main__":
                             if newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] is None or newGame.getGameGrid()[chosenToken[0]][chosenToken[1]].get_tokenColour() != i.get_playerColour():
                                 print("\nYour token could not be found at the specified coordinate. Please re-enter the coordinate of the token you would like to move.")
 
-                        print("\nYou will now input the coordinates of the position you would like to move your specified token to.")
+                        print("\nYou will now input the coordinates of the position you would like to move your specified token to. You can only move 1 square from your current position.")
                         while len(movementPosition) == 0 or newGame.getGameGrid()[movementPosition[0]][movementPosition[1]] is not None or \
-                                (newGame.getGameGrid()[movementPosition[0] - 1][movementPosition[1]] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] and
-                                 newGame.getGameGrid()[movementPosition[0] - 1][movementPosition[1] - 1] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] and
-                                 newGame.getGameGrid()[movementPosition[0]][movementPosition[1] - 1] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] and
-                                 newGame.getGameGrid()[movementPosition[0] + 1][movementPosition[1] - 1] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] and
-                                 newGame.getGameGrid()[movementPosition[0] + 1][movementPosition[1]] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] and
-                                 newGame.getGameGrid()[movementPosition[0] + 1][movementPosition[1] + 1] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] and
-                                 newGame.getGameGrid()[movementPosition[0]][movementPosition[1] + 1] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] and
-                                 newGame.getGameGrid()[movementPosition[0] - 1][movementPosition[1] + 1] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1]]):
+                                (not (0 <= movementPosition[0] <= 9) and not(0 <= movementPosition[1] <= 11) and 
+                                math.sqrt(pow((Position1-chosenToken.get_tokenPosition[0]),2)+pow((Position2-chosenToken.get_tokenPosition[1]),2)) != 1
+                                ):
                             Position1, Position2, movementPosition = "", "", []
                             while Position1 not in rows:
-                                Position1 = input("\nPlease pick which row you would like to place your token in (Select from 1 to 10): ")
+                                Position1 = input("\nPlease pick which row you would like to move your token in (Select from 1 to 10): ")
                             movementPosition.append(10 - int(Position1))
                             while Position2 not in columns:
-                                Position2 = input("\nPlease pick which column you would like to place your token in (Select from A to L): ").lower()
+                                Position2 = input("\nPlease pick which column you would like to move your token in (Select from A to L): ").lower()
                             Position2 = ord(Position2.lower()) - 97
                             movementPosition.append(Position2)
-                            if newGame.getGameGrid()[movementPosition[0]][movementPosition[1]] is not None or \
-                                    (newGame.getGameGrid()[movementPosition[0] - 1][movementPosition[1]] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] and
-                                     newGame.getGameGrid()[movementPosition[0] - 1][movementPosition[1] - 1] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] and
-                                     newGame.getGameGrid()[movementPosition[0]][movementPosition[1] - 1] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] and
-                                     newGame.getGameGrid()[movementPosition[0] + 1][movementPosition[1] - 1] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] and
-                                     newGame.getGameGrid()[movementPosition[0] + 1][movementPosition[1]] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] and
-                                     newGame.getGameGrid()[movementPosition[0] + 1][movementPosition[1] + 1] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] and
-                                     newGame.getGameGrid()[movementPosition[0]][movementPosition[1] + 1] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] and
-                                     newGame.getGameGrid()[movementPosition[0] - 1][movementPosition[1] + 1] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1]]):
-                                print("\nYour token could not be placed at the specified coordinate. Please re-enter the coordinate of the position you would like to move your token.")
+
+                            
                         i.moveToken(newGame, chosenToken, movementPosition)
 
                     if newGame.getgameFinished():
