@@ -36,7 +36,11 @@ if __name__ == "__main__":
             while not newGame.getgameFinished():
                 for i in Players:
                     turnType, Position1, Position2 = "", "", ""
-                    while turnType != ("1" or "2"):
+                    while turnType not in ["1", "2"]:
+                        if len(i.get_playerTokens()) == 15:
+                            turnType = "1"
+                            print(i.get_playerName() + ", it is your turn to play.")
+                            break
                         turnType = input("\n\n" + (i.get_playerName() + ", it is your turn to play. Would you like to make a placement or a movement of a token? (1-Placement, 2-Movement): "))
 
                     if turnType == "1":
@@ -53,7 +57,7 @@ if __name__ == "__main__":
 
                     elif turnType == "2":
                         chosenToken, movementPosition = [], []
-                        print("You will now input the coordinates of the Token you would like to have moved.")
+                        print("\nYou will now input the coordinates of the Token you would like to have moved.")
                         while len(chosenToken) == 0 or newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] is None or newGame.getGameGrid()[chosenToken[0]][chosenToken[1]].get_tokenColour() != i.get_playerColour():
                             while Position1 not in rows:
                                 Position1 = input("\nPlease pick which token you would like to move by specifying the row it is in (Select from 1 to 10): ")
@@ -63,7 +67,7 @@ if __name__ == "__main__":
                             Position2 = ord(Position2.lower()) - 97
                             chosenToken.append(Position2)
                             if newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] is None or newGame.getGameGrid()[chosenToken[0]][chosenToken[1]].get_tokenColour() != i.get_playerColour():
-                                print("Your token could not be found at the specified coordinate. Please re-enter the coordinate of the token you would like to move.")
+                                print("\nYour token could not be found at the specified coordinate. Please re-enter the coordinate of the token you would like to move.")
 
                         Position1, Position2 = "", ""
                         print("You will now input the coordinates of the position you would like to move your specified token to.")
@@ -76,6 +80,7 @@ if __name__ == "__main__":
                                     newGame.getGameGrid()[movementPosition[0]][movementPosition[1]] is not newGame.getGameGrid()[chosenToken[0]-1][chosenToken[1]-1] and
                                     newGame.getGameGrid()[movementPosition[0]][movementPosition[1]] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1]-1] and
                                     newGame.getGameGrid()[movementPosition[0]][movementPosition[1]] is not newGame.getGameGrid()[chosenToken[0]+1][chosenToken[1]-1]):
+                            Position1, Position2 = "", ""
                             while Position1 not in rows:
                                 Position1 = input("\nPlease pick which row you would like to place your token in (Select from 1 to 10): ")
                             movementPosition.append(10 - int(Position1))
@@ -93,7 +98,11 @@ if __name__ == "__main__":
                                      newGame.getGameGrid()[movementPosition[0]][movementPosition[1]] is not newGame.getGameGrid()[chosenToken[0]][chosenToken[1] - 1] and
                                      newGame.getGameGrid()[movementPosition[0]][movementPosition[1]] is not newGame.getGameGrid()[chosenToken[0] + 1][chosenToken[1] - 1]):
                                 print("Your token could not be placed at the specified coordinate. Please re-enter the coordinate of the position you would like to move your token.")
-                        i.moveToken(newGame, i.get_playerColour(), chosenToken, movementPosition)
+                        #i.moveToken(newGame, i.get_playerColour(), chosenToken, movementPosition)
+                        print("TEST1s")
+
+                    if newGame.getgameFinished():
+                        break
 
         elif gameMode == "2":
             startState = True

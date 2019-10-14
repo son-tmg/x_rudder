@@ -83,7 +83,7 @@ class Game:
 			if i == 9:
 				for i in range(12):
 					print('{:>5}'.format(keys[i]),end=" ")
-
+		print("\n")
 		return "\n" #skip a line
 
 	def updateGameGrid(self, token, newPosition, moveType):
@@ -113,6 +113,7 @@ class Game:
 
 	def checkState(self,token,moveType):
 		"""checks to see if the last token that was placed or moved generated one of the 5 wining states.
+
 		
 			Token : token of a player
 			turnType : move or place
