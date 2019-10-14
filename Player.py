@@ -58,11 +58,11 @@ class Player:
         """
         Method to Place an unused token on the game grid
 
+        game            The game that is being played on
         playerTokens    List of tokens belonging to the player
-        position        Position coordinate to place the token
+        newPosition     Position coordinate to place the token
         """
-        token = playerTokens[0]
-        playerTokens.pop(0)
+        token = playerTokens.pop(0)
         game.updateGameGrid(token, newPosition)
         game.checkState(token)
 
@@ -70,8 +70,9 @@ class Player:
         """
         Method to move a used token on the game grid
 
-        Token           Token object used to move on the game grid
-        Position        Token coordinates to move on the game grid
+        game               The game that is being played on
+        oldPosition        Position coordinate to find the token
+        newPosition        Position coordinate to place the token
         """
         token = game.getGameGrid()[oldPosition[0]][oldPosition[1]]
         game.getGameGrid()[oldPosition[0]][oldPosition[1]] = None
