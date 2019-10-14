@@ -31,6 +31,9 @@ class Game:
 					[None,None,None,None,None,None,None,None,None,None,None,None],
 					[None,None,None,None,None,None,None,None,None,None,None,None],
 			]
+
+			
+
 		self._totalPlacedTokens = 0
 		self._totalTimeOfGame = 0
 
@@ -69,7 +72,10 @@ class Game:
 			print(10-i, end="  ") # print row number and space
 
 			for j in range(len(self._gameGrid[i])):
-				print(self._gameGrid[i][j]," ",end="")
+				if self._gameGrid[i][j] is None:
+					print(self._gameGrid[i][j], " ", end="")
+				else:
+					print(self._gameGrid[i][j].get_tokenColour(), " ", end="")
 
 			print("\n")	# skip a line once a row has been printed for next row
 
@@ -77,23 +83,119 @@ class Game:
 			if i == 9:
 				for i in range(12):
 					print('{:>5}'.format(keys[i]),end=" ")
-
+		print("\n")
 		return "\n" #skip a line
 
-	def updateGameGrid(self,token,newPosition,moveType):
+	def updateGameGrid(self, token, newPosition, moveType):
 		"""
 		updates game grid with new token or move.
 		if placing token:get coordinates of old tokenset game grid position
+		if moving token : get old position and set that GameGrid position to None, then get new position, set it for token and set that new gameGrid position to token.
 		"""
 
-		if moveType == "place":
-
+		if moveType == "placement":
+			i = newPosition[0]
+			j = newPosition[1]
 			token.set_tokenPosition(newPosition)
-			self.gameGrid[i][j] = token
+			self._gameGrid[i][j] = token
+		elif moveType == "movement":
+			i = token.get_tokenPosition[0]
+			j = token.get_tokenPosition[1]
+			self._gameGrid[i][j] = None
 
-		print("Here is the updated gameGrid")
-		printGameGrid(self)
+			k = newPosition[0]
+			l = newPosition[1]
+			token.set_tokenPosition(newPosition)
+			self._gameGrid[k,l] = token
 
-	def checkState(self,Token):
-		"""checks the current gameFinished to see if there is a win or tie, based on last token added."""
+		self.printGameGrid()
 
+
+	def checkState(self,token,moveType):
+		"""checks to see if the last token that was placed or moved generated one of the 5 wining states.
+
+		
+			Token : token of a player
+			turnType : move or place
+			return : nothing
+		"""
+
+		i = token.get_tokenPosition()[0]	#row
+		j = token.get_tokenPosition()[1]	#column
+
+		"""WIP : What happens if we crossed out an oppsing X, but move one of the 2 crossing tokens and generate a win for the other player ? """
+
+		#Refactor into 2 seperate functions : checking which of the 5 cases and
+
+
+		#center
+		if ( 1<=i<=8 and 1<=j<=10):
+			if (
+				self._gameGrid[i+1][j+1] != None and self._gameGrid[i+1][j+1].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i+1][j-1] != None and self._gameGrid[i+1][j-1].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i-1][j+1] != None and self._gameGrid[i-1][j+1].get_tokenColour() == token.get_tokenColour() and 
+				self._gameGrid[i-1][j-1] != None and self._gameGrid[i-1][j-1].get_tokenColour() == token.get_tokenColour()
+			):
+				if (
+					self._gameGrid[i][j-1] == None or self._gameGrid[i][j-1].get_tokenColour() == token.get_tokenColour() or 
+					self._gameGrid[i][j+1] == None or self._gameGrid[i][j+1].get_tokenColour() == token.get_tokenColour()
+					):
+						self.setgameFinished(True)
+
+		#top left						
+		if (0<=i<=7 and 0<=j<=9):		
+			if(
+				self._gameGrid[i][j+2] != None and self._gameGrid[i][j+2].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i+1][j+1] != None and self._gameGrid[i+1][j+1].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i+2][j] != None and self._gameGrid[i+2][j].get_tokenColour() == token.get_tokenColour() and 
+				self._gameGrid[i+2][j+2] != None and self._gameGrid[i+2][j+2].get_tokenColour() == token.get_tokenColour()
+			):
+				if (
+					self._gameGrid[i+1][j] == None or self._gameGrid[i+1][j].get_tokenColour() == token.get_tokenColour() or
+					self._gameGrid[i+1][j+2] == None or self._gameGrid[i+1][j+2].get_tokenColour() == token.get_tokenColour()
+					):
+						self.setgameFinished(True)
+
+		#top right
+		if (0<=i<=7 and 2<=j<=11):		
+			if (
+				self._gameGrid[i][j-2] != None and self._gameGrid[i][j-2].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i+1][j-1] != None and self._gameGrid[i+1][j-1].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i+2][j-2] != None and self._gameGrid[i+2][j-2].get_tokenColour() == token.get_tokenColour() and 
+				self._gameGrid[i+2][j] != None and self._gameGrid[i+2][j].get_tokenColour() == token.get_tokenColour()
+			):
+				if (
+					self._gameGrid[i+1][j] == None or self._gameGrid[i+1][j].get_tokenColour() == token.get_tokenColour() or
+					self._gameGrid[i+1][j-2] == None or self._gameGrid[i+1][j-2].get_tokenColour() == token.get_tokenColour()
+					):
+						self.setgameFinished(True)
+		
+		#bottom left
+		if (2<=i<=9 and 0<=j<=9):
+			if (
+				self._gameGrid[i-2][j] != None and self._gameGrid[i-2][j].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i][j+2] != None and self._gameGrid[i][j+2].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i-1][j+1] != None and self._gameGrid[i-1][j+1].get_tokenColour() == token.get_tokenColour() and 
+				self._gameGrid[i-2][j+2] != None and self._gameGrid[i-2][j+2].get_tokenColour() == token.get_tokenColour()
+			):
+				if (
+					self._gameGrid[i-1][j] == None or self._gameGrid[i-1][j].get_tokenColour() == token.get_tokenColour() or
+					self._gameGrid[i-1][j+2] == None or self._gameGrid[i-1][j+2].get_tokenColour() == token.get_tokenColour()
+					):
+						self.setgameFinished(True)
+
+		#bottom right			
+		if (2<=i<=9 and 2<=j<=11):		
+			if (
+				self._gameGrid[i-2][j] != None and self._gameGrid[i-2][j].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i-1][j-1] != None and self._gameGrid[i-1][j-1].get_tokenColour() == token.get_tokenColour() and
+				self._gameGrid[i][j-2] != None and self._gameGrid[i][j-2].get_tokenColour() == token.get_tokenColour() and 
+				self._gameGrid[i-2][j-2] != None and self._gameGrid[i-2][j-2].get_tokenColour() == token.get_tokenColour()
+			):
+				if (
+					self._gameGrid[i-1][j] == None or self._gameGrid[i-1][j].get_tokenColour() == token.get_tokenColour() or
+					self._gameGrid[i-1][j-2] == None or self._gameGrid[i-1][j-2].get_tokenColour() == token.get_tokenColour()
+					):
+						self.setgameFinished(True)
+
+		#if none of the 5 winning configurations were found, this means the player has not won yet and the game continues.

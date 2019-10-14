@@ -54,31 +54,53 @@ class Player:
         for i in range(15):
             self._playerTokens.append(Token.Token(self._playerColour, [None, None]))
 
-    def placeToken(self, Token, position):
+    def placeToken(self, game, playerTokens, newPosition):
         """
         Method to Place an unused token on the game grid
 
-        Token           Token object used to place on the game grid
-        Token.position  Token coordinates to place on the game grid
+        playerTokens    List of tokens belonging to the player
+        position        Position coordinate to place the token
         """
-        if Token.placed == True:
-            x = input(print("Token has already been placed. Would you like to move it (Yes or No)"))
-            if x.casefold() == "yes":
-                self.moveToken(Token, position) #WIP
-            else:
-                y = input(print("Choose another Token."))
-                self.placeToken(y, [1,"A"])   #For coordinate, place a list as the argument, 1st arg. being 1-10, 2nd being A-L
+        if not playerTokens:
+            position = input("No more tokens are available to place. Please indicate which token from the grid" +
+                             " you would like to move by inputting its position coordinate (e.g. 1,A): ").split(",")
+            newPosition = input("Now input the position coordinate that you would like to move the token to (e.g. 1,A): ").split(",")
+            self.moveToken(game, position, newPosition)
         else:
-            moveType = "place"
-            #updateGameGrid(Token, position)  #WIP
-            #   -----> printGameGrod()
-            #checkState(Token)
+            token = playerTokens[0]
+            playerTokens.pop(0)
+            if game._gameGrid[newPosition[0]][newPosition[1]] is None:
+                game.updateGameGrid(token, newPosition, "placement")
+                game.checkState(token, "placement")
+            else:
+                new_position = input("The position you have requested to add your token at already has a token on it. " +
+                                     "Please input a new position coordinate (e.g. 1,A): ").split(",")
+                self.placeToken(game, playerTokens, newPosition)
 
-
-    def moveToken(self, Token, position):
+    def moveToken(self, game, oldPosition, newPosition):
         """
         Method to move a used token on the game grid
 
         Token           Token object used to move on the game grid
         Position        Token coordinates to move on the game grid
         """
+        token = playerTokens[0]
+        playerTokens.pop(0)
+
+        if game._gameGrid[newPosition[0]][newPosition[1]] is None:
+            game.updateGameGrid(token, newPosition, "placement")
+            game.checkState(token)
+
+            """if game._gameGrid[oldPosition[0]][oldPosition[1]] is None:
+            Position1, Position2 = "", ""
+            print(
+                "The token you have requested to move is not at the specified location. Please re-enter a new coordinate of a token currently placed on the grid.")
+            while Position1 not in gameStart.rows:
+                Position1 = input(
+                    "\nPlease pick which row you would like to place your token in (Select from 1 to 10): ")
+            oldPosition.append(10 - int(Position1))
+            while Position2 not in gameStart.columns:
+                Position2 = input(
+                    "\nPlease pick which column you would like to place your token in (Select from A to L): ").lower()
+            Position2 = ord(Position2.lower()) - 97
+            oldPosition.append(Position2)"""
