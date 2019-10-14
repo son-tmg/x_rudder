@@ -90,6 +90,7 @@ class Game:
 		"""
 		updates game grid with new token or move.
 		if placing token:get coordinates of old tokenset game grid position
+		if moving token : get old position and set that GameGrid position to None, then get new position, set it for token and set that new gameGrid position to token.
 		"""
 
 		if moveType == "placement":
@@ -97,52 +98,29 @@ class Game:
 			j = newPosition[1]
 			token.set_tokenPosition(newPosition)
 			self._gameGrid[i][j] = token
+		elif moveType == "movement":
+			i = token.get_tokenPosition[0]
+			j = token.get_tokenPosition[1]
+			self._gameGrid[i][j] = None
+
+			k = newPosition[0]
+			l = newPosition[1]
+			token.set_tokenPosition(newPosition)
+			self._gameGrid[k,l] = token
 
 		self.printGameGrid()
 
 
-	def checkState(self,token):
-		"""checks to see if the last token that was placed or moved generated a wining state
+	def checkState(self,token,moveType):
+		"""checks to see if the last token that was placed or moved generated one of the 5 wining states.
 		
 			Token : token of a player
+			turnType : move or place
 			return : nothing
 		"""
 
 		i = token.get_tokenPosition()[0]	#row
 		j = token.get_tokenPosition()[1]	#column
-
-		"""
-			center Token
-				if 1<= i <= 8 and 1<=j<=10:
-					if top right, top left, bottom left, bottom right is not None and token at that position is same colour as current token
-						if token at left and right of center is same colour
-							return True
-
-			top left token
-				if 0<= i <= 7 and 0<=j<=9:
-					if top right, top left, bottom left, bottom right is not None and token at that position is same colour as current token
-						if token at left and right of center is same colour
-							return True
-
-			top right token
-				if 0<= i <= 7 and 2<=j<=11:
-					if top right, top left, bottom left, bottom right is not None and token at that position is same colour as current token
-						if token at left and right of center is same colour
-							return True
-
-			bottom left token
-				if 2<= i <= 9 and 0<=j<=9:
-					if top right, top left, bottom left, bottom right is not None and token at that position is same colour as current token
-						if token at left and right of center is same colour
-							return True
-
-
-			bottom right token
-				if 2<=i<= 9 and 2<=j<=11:
-					if top right, top left, bottom left, bottom right is not None and token at that position is same colour as current token
-						if token at left and right of center is same colour
-							return True				
-		"""  
 
 		"""WIP : What happens if we crossed out an oppsing X, but move one of the 2 crossing tokens and generate a win for the other player ? """
 
@@ -161,7 +139,6 @@ class Game:
 					self._gameGrid[i][j-1] == None or self._gameGrid[i][j-1].get_tokenColour() == token.get_tokenColour() or 
 					self._gameGrid[i][j+1] == None or self._gameGrid[i][j+1].get_tokenColour() == token.get_tokenColour()
 					):
-						print("A Winner was found after placing a token at center of X")
 						self.setgameFinished(True)
 
 		#top left						
@@ -176,7 +153,6 @@ class Game:
 					self._gameGrid[i+1][j] == None or self._gameGrid[i+1][j].get_tokenColour() == token.get_tokenColour() or
 					self._gameGrid[i+1][j+2] == None or self._gameGrid[i+1][j+2].get_tokenColour() == token.get_tokenColour()
 					):
-						print("A Winner was found after placing token at top left of X")
 						self.setgameFinished(True)
 
 		#top right
@@ -191,7 +167,6 @@ class Game:
 					self._gameGrid[i+1][j] == None or self._gameGrid[i+1][j].get_tokenColour() == token.get_tokenColour() or
 					self._gameGrid[i+1][j-2] == None or self._gameGrid[i+1][j-2].get_tokenColour() == token.get_tokenColour()
 					):
-						print("A Winner was found after placing token at top right of X")
 						self.setgameFinished(True)
 		
 		#bottom left
@@ -206,7 +181,6 @@ class Game:
 					self._gameGrid[i-1][j] == None or self._gameGrid[i-1][j].get_tokenColour() == token.get_tokenColour() or
 					self._gameGrid[i-1][j+2] == None or self._gameGrid[i-1][j+2].get_tokenColour() == token.get_tokenColour()
 					):
-						print("A Winner was found after placing token at bottom left of X")
 						self.setgameFinished(True)
 
 		#bottom right			
@@ -221,5 +195,6 @@ class Game:
 					self._gameGrid[i-1][j] == None or self._gameGrid[i-1][j].get_tokenColour() == token.get_tokenColour() or
 					self._gameGrid[i-1][j-2] == None or self._gameGrid[i-1][j-2].get_tokenColour() == token.get_tokenColour()
 					):
-						print("A Winner was found after placing token at bottom right of X")
 						self.setgameFinished(True)
+
+		#if none of the 5 winning configurations were found, this means the player has not won yet and the game continues.
