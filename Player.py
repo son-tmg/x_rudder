@@ -69,10 +69,9 @@ class Player:
         else:
             token = playerTokens[0]
             playerTokens.pop(0)
-
             if game._gameGrid[newPosition[0]][newPosition[1]] is None:
                 game.updateGameGrid(token, newPosition, "placement")
-                game.checkState(token) 
+                game.checkState(token, "placement")
             else:
                 new_position = input("The position you have requested to add your token at already has a token on it. " +
                                      "Please input a new position coordinate (e.g. 1,A): ").split(",")
