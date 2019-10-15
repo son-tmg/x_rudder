@@ -3,7 +3,7 @@ import Game, Player, Token, math
 if __name__ == "__main__":
     startState = False
     Players = []
-    chosenToken, placementPosition, movementPosition = [], [], []
+    chosenToken, placementPosition, movementPosition, nbMoves = [], [], [], 0
     rows = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
     columns = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"]
 
@@ -37,6 +37,11 @@ if __name__ == "__main__":
             while not newGame.getgameFinished():
                 for i in Players:
                     turnType, Position1, Position2 = "", "", ""
+                    
+                    if len(Players[0].get_playerTokens()) == 0 and len(Players[1].get_playerTokens()) == 0 and nbMoves >= 30:
+                        newGame.setgameFinished(True)
+                        print("The game ended as a tie.")
+                    
                     while turnType not in ["1", "2"]:
                         if len(i.get_playerTokens()) == 15:
                             turnType = "1"
@@ -63,6 +68,7 @@ if __name__ == "__main__":
                         i.placeToken(newGame, i.get_playerTokens(), placementPosition)
 
                     elif turnType == "2":
+                        nbMoves += 1
                         print("\nYou will now input the coordinates of the Token you would like to have moved.")
                         while len(chosenToken) == 0 or newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] is None or newGame.getGameGrid()[chosenToken[0]][chosenToken[1]].get_tokenColour() != i.get_playerColour():
                             Position1, Position2, chosenToken = "", "", []
@@ -78,8 +84,8 @@ if __name__ == "__main__":
 
                         print("\nYou will now input the coordinates of the position you would like to move your specified token to. You can only move 1 square from your current position.")
                         while len(movementPosition) == 0 or newGame.getGameGrid()[movementPosition[0]][movementPosition[1]] is not None or \
-                                (not (0 <= movementPosition[0] <= 9) and not(0 <= movementPosition[1] <= 11) and 
-                                math.sqrt(pow((Position1-chosenToken[0]), 2)+pow((Position2-chosenToken[1]), 2)) != 1
+                                (not (0 <= movementPosition[0] <= 9) and not(0 <= movementPosition[1] <= 11) and
+                                 math.sqrt(pow((Position1-chosenToken.get_tokenPosition[0]), 2)+pow((Position2-chosenToken.get_tokenPosition[1]), 2)) != 1):
                                 ):
                             Position1, Position2, movementPosition = "", "", []
                             while Position1 not in rows:
