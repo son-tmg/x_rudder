@@ -86,32 +86,19 @@ class Game:
 		print("\n")
 		return "\n" #skip a line
 
-	def updateGameGrid(self, token, newPosition, moveType):
+	def updateGameGrid(self, token, newPosition):
 		"""
 		updates game grid with new token or move.
 		if placing token:get coordinates of old tokenset game grid position
 		if moving token : get old position and set that GameGrid position to None, then get new position, set it for token and set that new gameGrid position to token.
 		"""
-
-		if moveType == "placement":
-			i = newPosition[0]
-			j = newPosition[1]
-			token.set_tokenPosition(newPosition)
-			self._gameGrid[i][j] = token
-		elif moveType == "movement":
-			i = token.get_tokenPosition[0]
-			j = token.get_tokenPosition[1]
-			self._gameGrid[i][j] = None
-
-			k = newPosition[0]
-			l = newPosition[1]
-			token.set_tokenPosition(newPosition)
-			self._gameGrid[k,l] = token
-
+		i = newPosition[0]
+		j = newPosition[1]
+		token.set_tokenPosition(newPosition)
+		self._gameGrid[i][j] = token
 		self.printGameGrid()
 
-
-	def checkState(self,token,moveType):
+	def checkState(self,token):
 		"""checks to see if the last token that was placed or moved generated one of the 5 wining states.
 
 		
