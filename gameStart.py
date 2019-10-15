@@ -79,7 +79,7 @@ if __name__ == "__main__":
                         print("\nYou will now input the coordinates of the position you would like to move your specified token to. You can only move 1 square from your current position.")
                         while len(movementPosition) == 0 or newGame.getGameGrid()[movementPosition[0]][movementPosition[1]] is not None or \
                                 (not (0 <= movementPosition[0] <= 9) and not(0 <= movementPosition[1] <= 11) and 
-                                math.sqrt(pow((Position1-chosenToken.get_tokenPosition[0]),2)+pow((Position2-chosenToken.get_tokenPosition[1]),2)) != 1
+                                math.sqrt(pow((Position1-chosenToken[0]), 2)+pow((Position2-chosenToken[1]), 2)) != 1
                                 ):
                             Position1, Position2, movementPosition = "", "", []
                             while Position1 not in rows:
@@ -90,7 +90,40 @@ if __name__ == "__main__":
                             Position2 = ord(Position2.lower()) - 97
                             movementPosition.append(Position2)
 
-                            
+                        """find surrounding tokens to chosenToken's old position and check if by moving there is a winning configuration.
+                            for any tokens that are within a 1 radius distance from chosenToken, call checkstate() on them
+                        """
+
+                        neighbourTokenPositions = []    #contains neighbour token positions
+                        neighbourOppositeTokens = []    #contains neighbour tokens that are opposite to current player's colour
+
+                        left = [chosenToken[0],chosenToken[1]-1]
+                        right = [chosenToken[0],chosenToken[1]+1]
+                        top = [chosenToken[0]-1,chosenToken[1]]
+                        bottom = [chosenToken[0]+1,chosenToken[1]]
+                        topLeft = [chosenToken[0]-1,chosenToken[1]-1]
+                        topRight = [chosenToken[0]-1,chosenToken[1]+1]
+                        bottomLeft = [chosenToken[0]+1,chosenToken[1]-1]
+                        bottomRight = [chosenToken[0]+1,chosenToken[1]+1]
+
+                        neighbourTokenPositions.extend([left,right,top,bottom,topLeft,topRight,bottomLeft,bottomRight])
+
+                        for tokenPosition in neighbourTokenPositions:
+                            if 0<tokenPosition[0]<9 and 0<tokenPosition[1]<11 and newGame.getGameGrid()[tokenPosition[0]][tokenPosition[1]] != None :
+                                if newGame.getGameGrid()[tokenPosition[0]][tokenPosition[1]].get_tokenColour() != i.get_playerColour():
+                                    neighbourOppositeTokens.append(newGame.getGameGrid()[tokenPosition[0]][tokenPosition[1]])
+
+                        tempToken = Token.Token(i.get_playerColour(),[chosenToken[0],chosenToken[1]]) #make a copy of the token to be moved
+                        newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] = None    #set token at old position to None, so that we can see if any neighbours get winning configuration
+
+                        for token in neighbourOppositeTokens:
+                            newGame.checkState(token)
+                            if newGame.getgameFinished():
+                                print("\nThe game has ended.")
+                                break
+
+                        newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] = tempToken #bring back moved token to old position so that it may be moved later
+
                         i.moveToken(newGame, chosenToken, movementPosition)
 
                     if newGame.getgameFinished():
