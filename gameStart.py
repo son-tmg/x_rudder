@@ -124,6 +124,14 @@ if __name__ == "__main__":
                         for token in neighbourOppositeTokens:
                             newGame.checkState(token)
                             if newGame.getgameFinished():
+                                
+                                if i == Players[0]:
+                                    i = Players[1]
+                                    print("Player " + i.get_playerName() +  " won.")
+                                else:
+                                    i = Players[0]
+                                    print("Player " + i.get_playerName() +  " won.")
+
                                 print("\nThe game has ended.")
                                 break
 
@@ -132,6 +140,7 @@ if __name__ == "__main__":
                         i.moveToken(newGame, chosenToken, movementPosition)
 
                     if newGame.getgameFinished():
+                        print("Player " + i.get_playerName() + " won.")
                         break
 
         elif gameMode == "2":
