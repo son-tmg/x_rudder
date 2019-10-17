@@ -71,7 +71,7 @@ if __name__ == "__main__":
                         nbMoves += 1
                         print("\nYou will now input the coordinates of the Token you would like to have moved.")
                         while len(chosenToken) == 0 or newGame.getGameGrid()[chosenToken[0]][chosenToken[1]] is None or newGame.getGameGrid()[chosenToken[0]][chosenToken[1]].get_tokenColour() != i.get_playerColour():
-                            Position1, Position2, chosenToken = "", "", []
+                            Position1, Position2, chosenToken,movementPosition = "", "", [], []
                             while Position1 not in rows:
                                 Position1 = input("\nPlease pick which token you would like to move by specifying the row it is in (Select from 1 to 10): ")
                             chosenToken.append(10 - int(Position1))
@@ -85,7 +85,7 @@ if __name__ == "__main__":
                         print("\nYou will now input the coordinates of the position you would like to move your specified token to. You can only move 1 square from your current position.")
                         while len(movementPosition) == 0 or newGame.getGameGrid()[movementPosition[0]][movementPosition[1]] is not None or \
                                 (not (0 <= movementPosition[0] <= 9) and not(0 <= movementPosition[1] <= 11)) or \
-                                 math.sqrt(pow((int(Position1)-chosenToken[0]), 2)+pow((int(Position2)-chosenToken[1]), 2)) != 1:
+                                 math.sqrt(pow((movementPosition[0]-chosenToken[0]), 2)+pow((movementPosition[1]-chosenToken[1]), 2)) != 1:
                                       
                             Position1, Position2, movementPosition = "", "", []
                             while Position1 not in rows:
