@@ -38,9 +38,10 @@ if __name__ == "__main__":
                 for i in Players:
                     turnType, Position1, Position2, placementPosition, chosenToken, movementPosition = "", "", "", [], [], []
                     
-                    if len(Players[0].get_playerTokens()) == 0 and len(Players[1].get_playerTokens()) == 0 and nbMoves > 30:
+                    if len(Players[0].get_playerTokens()) == 0 and len(Players[1].get_playerTokens()) == 0 and nbMoves >= 30:
                         newGame.setgameFinished(True)
                         print("The game ended as a tie.")
+                        exit(1)
                     
                     while turnType not in ["1", "2"]:
                         if len(i.get_playerTokens()) == 15:
