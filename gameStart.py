@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
             while not newGame.getgameFinished():
                 for i in Players:
-                    turnType, Position1, Position2 = "", "", ""
+                    turnType, Position1, Position2, placementPosition, chosenToken, movementPosition = "", "", "", [], [], []
                     
                     if len(Players[0].get_playerTokens()) == 0 and len(Players[1].get_playerTokens()) == 0 and nbMoves > 30:
                         newGame.setgameFinished(True)
