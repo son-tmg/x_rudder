@@ -84,8 +84,9 @@ if __name__ == "__main__":
 
                         print("\nYou will now input the coordinates of the position you would like to move your specified token to. You can only move 1 square from your current position.")
                         while len(movementPosition) == 0 or newGame.getGameGrid()[movementPosition[0]][movementPosition[1]] is not None or \
-                                (not (0 <= movementPosition[0] <= 9) and not(0 <= movementPosition[1] <= 11) and
-                                 math.sqrt(pow((Position1-chosenToken[0]), 2)+pow((Position2-chosenToken[1]), 2)) != 1):
+                                (not (0 <= movementPosition[0] <= 9) and not(0 <= movementPosition[1] <= 11)) or \
+                                 math.sqrt(pow((int(Position1)-chosenToken[0]), 2)+pow((int(Position2)-chosenToken[1]), 2)) != 1:
+                                      
                             Position1, Position2, movementPosition = "", "", []
                             while Position1 not in rows:
                                 Position1 = input("\nPlease pick which row you would like to move your token in (Select from 1 to 10): ")
