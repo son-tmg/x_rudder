@@ -147,7 +147,24 @@ if __name__ == "__main__":
 
         elif gameMode == "2":
             startState = True
-            print("\nNOT IMPLEMENTED YET. GOODBYE.")
+
+            print("\n\nWelcome Player 1, as an artificially intelligent agent, your name will be AI. ")
+            Player1 = Player.Player("AI", "\u2588   ")
+            Players.append(Player1)
+
+            Player2Name = input("\nWelcome Player 2, please enter your name: ")
+            Player2 = Player.Player(Player2Name, "\u2591   ")
+            Players.append(Player2)
+
+            print("\n")
+
+            for i in Players:
+                i.InitializeTokenList()
+                print("\nWelcome", i.get_playerName(), ", you will be playing in the token colour", i.get_playerColour().strip(), ", with the starting amount of", i.get_nbTokens(), "tokens.")
+
+            print("\n\n\n-------------------------------------------------- Starting a new game session. --------------------------------------------------\n")
+            newGame = Game.Game(Players)
+            print("\n\n", newGame.printGameGrid())
 
         else:
             print("\nInvalid Option. Please try again.\n")
