@@ -37,6 +37,10 @@ class Game:
 		self._totalPlacedTokens = 0
 		self._totalTimeOfGame = 0
 
+	def getPlayers(self):
+		"""returns the game players"""
+		return self._players
+
 	def getgameFinished(self):
 		"""returns the gameFinished"""
 		return self._gameFinished

@@ -67,6 +67,7 @@ if __name__ == "__main__":
                             if newGame.getGameGrid()[placementPosition[0]][placementPosition[1]] is not None:
                                 print("\nYour token could not be placed at the specified coordinate. Please re-enter the coordinate of the position you would like to move your token.")
                         i.placeToken(newGame, i.get_playerTokens(), placementPosition)
+                        i.set_nbTokens(len(i.get_playerTokens()))
 
                     elif turnType == "2":
                         nbMoves += 1

@@ -1,4 +1,4 @@
-import Game, Token
+import Game, Player, Token
 
 class Heuristic:
     """The heuristic function used for the AI"""
@@ -6,19 +6,7 @@ class Heuristic:
     Score = 0
     maxDepth = 0
 
-    def get_Score(self):
-        """Return the score of the AI heuristic function"""
-        return self._Score
-
-    def get_Player(self):
-        """Return the AI player"""
-        return self._Player
-
-    def get_maxDepth(self):
-        """Return the specified max depth"""
-        return self._maxDepth
-
-    def searchList(self, searchPosition, maxDepth = 1):
+    def searchList(self, game, searchPosition, maxDepth = 1):
         """
         Method to get the list of positions to check
 
@@ -28,20 +16,25 @@ class Heuristic:
         searchList = []
         y = searchPosition[0]
         x = searchPosition[1]
+        maxScore = self.searchScore(game, searchPosition)
 
         if (0 <= y-maxDepth <= 9 and 0 <= x-maxDepth <= 11) and (0 <= y+maxDepth <= 9 and 0 <= x+maxDepth <= 11):
             for i in range(y-maxDepth, y+(maxDepth+1)):
                 for j in range(x-maxDepth, x+(maxDepth+1)):
                     searchList.append([i,j])
 
-            self.searchScore(searchList)
+            return self.searchScore(searchList)
+
         else:
             print("need to check and change maxDepth. WIP")
 
-    def searchScore(self, searchList):
+    def searchScore(self, game, searchPosition):
         """
         Method to get the score of each individual search positions
 
-        searchList      List of all potential positions that can be played
+        game
+        searchPosition
         """
-
+        score1 = 0.2 * (15 - game.getPlayers()[0].get_nbTokens())
+        score2 = 0.1 * (15 - game.getPlayers()[1].get_nbTokens())
+        score3 = 0.2
