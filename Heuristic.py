@@ -3,19 +3,8 @@ import Game, Token
 class Heuristic:
     """The heuristic function used for the AI"""
 
-    def __init__(self, Player, maxDepth):
-        """
-        New instance of a heuristic function
-
-        Score       Score of the potential move of the heuristic function
-        Player      AI player containing all of its characteristics
-        maxDepth    Maximum specified depth for the heuristic function
-
-        """
-
-        self._Score = 0
-        self._Player = Player
-        self._maxDepth = maxDepth
+    Score = 0
+    maxDepth = 0
 
     def get_Score(self):
         """Return the score of the AI heuristic function"""
@@ -28,3 +17,31 @@ class Heuristic:
     def get_maxDepth(self):
         """Return the specified max depth"""
         return self._maxDepth
+
+    def searchList(self, searchPosition, maxDepth = 1):
+        """
+        Method to get the list of positions to check
+
+        searchPosition      Position coordinate to search and dictate the rest of potential moves
+        maxDepth            maximum perimeter depth the function will look into to find the score
+        """
+        searchList = []
+        y = searchPosition[0]
+        x = searchPosition[1]
+
+        if (0 <= y-maxDepth <= 9 and 0 <= x-maxDepth <= 11) and (0 <= y+maxDepth <= 9 and 0 <= x+maxDepth <= 11):
+            for i in range(y-maxDepth, y+(maxDepth+1)):
+                for j in range(x-maxDepth, x+(maxDepth+1)):
+                    searchList.append([i,j])
+
+            self.searchScore(searchList)
+        else:
+            print("need to check and change maxDepth. WIP")
+
+    def searchScore(self, searchList):
+        """
+        Method to get the score of each individual search positions
+
+        searchList      List of all potential positions that can be played
+        """
+
