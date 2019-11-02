@@ -48,7 +48,7 @@ class Heuristic:
         score2 = -0.1 * (15 - game.getPlayers()[1].get_nbTokens())
         score3 = 0
         score4 = 0
-        score5 = 0.4*self.getNumberOfWinningConfigurations(self,searchPosition,game)
+        score5 = 0.4*self.getNumberOfWinningConfigurations(searchPosition,game)
 
         for i in range(y - 1, y + 2):
             for j in range(x - 1, x + 2):
@@ -73,7 +73,7 @@ class Heuristic:
             if the token was placed at that position
 
             searchPosition : Current gameGrid position being evaluated for its position.
-            gameGrid : 
+            game : The game that is being played on
 
         """
         numberOfWinningConfigurations = 0
