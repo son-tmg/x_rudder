@@ -48,6 +48,7 @@ class Heuristic:
         score2 = -0.1 * (15 - game.getPlayers()[1].get_nbTokens())
         score3 = 0
         score4 = 0
+        score5 = 0.4*self.getNumberOfWinningConfigurations(searchPosition,game)
 
         for i in range(y - 1, y + 2):
             for j in range(x - 1, x + 2):
@@ -62,3 +63,94 @@ class Heuristic:
 
         #Addition of score5 from heuristic feature 5 * weight of function 5
         return (score1 + score2 + score3 + score4)
+
+
+
+    def getNumberOfWinningConfigurations(self,searchPosition,game):
+        """
+            Returns the number of winning configurations for the searchPosition.
+            This is determined by determining how many of the 5 winning possible winning configurations can be generated (Center, TL, TR, BL, BR)
+            if the token was placed at that position
+
+            searchPosition : Current gameGrid position being evaluated for its position.
+            game : The game that is being played on
+
+        """
+        numberOfWinningConfigurations = 0
+        gameGrid = game.getGameGrid()
+        i = searchPosition[1]
+        j = searchPosition[0]
+
+        
+		#Center
+        if ( 1<=i<=8 and 1<=j<=10):
+			if (
+			    gameGrid[i+1][j+1] == None or gameGrid[i+1][j+1].get_tokenColour() == game.getPlayers()[0].get_playerColour() and
+				gameGrid[i+1][j-1] == None or gameGrid[i+1][j-1].get_tokenColour() == game.getPlayers()[0].get_playerColour() and
+				gameGrid[i-1][j+1] == None or gameGrid[i-1][j+1].get_tokenColour() ==  game.getPlayers()[0].get_playerColour() and 
+				gameGrid[i-1][j-1] == None or gameGrid[i-1][j-1].get_tokenColour() == game.getPlayers()[0].get_playerColour()
+			):
+				if (
+					gameGrid[i][j-1] == None or gameGrid[i][j-1].get_tokenColour() == game.getPlayers()[0].get_playerColour()  and
+					gameGrid[i][j+1] == None or gameGrid[i][j+1].get_tokenColour() == game.getPlayers()[0].get_playerColour() 
+
+					):
+						numberOfWinningConfigurations += 1
+
+        #top left						
+        if ( 0<=i<=7 and 0<=j<=9 ):
+			if (
+				gameGrid[i][j+2] == None or gameGrid[i][j+2].get_tokenColour() == game.getPlayers()[0].get_playerColour() and
+				gameGrid[i+1][j+1] == None or gameGrid[i+1][j+1].get_tokenColour() == game.getPlayers()[0].get_playerColour() and
+				gameGrid[i+2][j] == None or gameGrid[i+2][j].get_tokenColour() == game.getPlayers()[0].get_playerColour() and 
+				gameGrid[i+2][j+2] == None or gameGrid[i+2][j+2].get_tokenColour() == game.getPlayers()[0].get_playerColour()
+			):
+				if (
+					gameGrid[i+1][j] == None or gameGrid[i+1][j].get_tokenColour() == game.getPlayers()[0].get_playerColour() and
+					gameGrid[i+1][j+2] == None or gameGrid[i+1][j+2].get_tokenColour() == game.getPlayers()[0].get_playerColour()
+					):
+					    numberOfWinningConfigurations += 1
+
+		#top right
+        if ( 0<=i<=7 and 2<=j<=11 ):	
+            if (
+                gameGrid[i][j-2] == None or gameGrid[i][j-2].get_tokenColour() == game.getPlayers()[0].get_playerColour() and
+                gameGrid[i+1][j-1] == None or gameGrid[i+1][j-1].get_tokenColour() == game.getPlayers()[0].get_playerColour() and
+                gameGrid[i+2][j-2] == None or gameGrid[i+2][j-2].get_tokenColour() == game.getPlayers()[0].get_playerColour() and 
+                gameGrid[i+2][j] == None or gameGrid[i+2][j].get_tokenColour() == game.getPlayers()[0].get_playerColour()
+            ):
+                if (
+                    gameGrid[i+1][j] == None or gameGrid[i+1][j].get_tokenColour() == game.getPlayers()[0].get_playerColour() and
+                    gameGrid[i+1][j-2] == None or gameGrid[i+1][j-2].get_tokenColour() == game.getPlayers()[0].get_playerColour()
+                    ):
+                        numberOfWinningConfigurations += 1
+
+        #bottom left
+		if (2<=i<=9 and 0<=j<=9):
+			if (
+				gameGrid[i-2][j] == None or gameGrid[i-2][j].get_tokenColour() == game.getPlayers()[0].get_playerColour() and
+				gameGrid[i][j+2] == None or gameGrid[i][j+2].get_tokenColour() == game.getPlayers()[0].get_playerColour() and
+				gameGrid[i-1][j+1] == None or gameGrid[i-1][j+1].get_tokenColour() == game.getPlayers()[0].get_playerColour() and 
+				gameGrid[i-2][j+2] == None or gameGrid[i-2][j+2].get_tokenColour() == game.getPlayers()[0].get_playerColour()
+			):
+				if (
+					gameGrid[i-1][j] == None or gameGrid[i-1][j].get_tokenColour() == game.getPlayers()[0].get_playerColour() and
+					gameGrid[i-1][j+2] == None or gameGrid[i-1][j+2].get_tokenColour() == game.getPlayers()[0].get_playerColour()
+					):
+						numberOfWinningConfigurations += 1
+
+		#bottom right			
+		if (2<=i<=9 and 2<=j<=11):		
+			if (
+				gameGrid[i-2][j] == None or gameGrid[i-2][j].get_tokenColour() == game.getPlayers()[0].get_playerColour() and
+				gameGrid[i-1][j-1] == None or gameGrid[i-1][j-1].get_tokenColour() == game.getPlayers()[0].get_playerColour() and
+				gameGrid[i][j-2] == None or gameGrid[i][j-2].get_tokenColour() == game.getPlayers()[0].get_playerColour() and 
+				gameGrid[i-2][j-2] == None or gameGrid[i-2][j-2].get_tokenColour() == game.getPlayers()[0].get_playerColour()
+			):
+				if (
+					gameGrid[i-1][j] == None or gameGrid[i-1][j].get_tokenColour() == game.getPlayers()[0].get_playerColour() and
+					gameGrid[i-1][j-2] == None or gameGrid[i-1][j-2].get_tokenColour() == game.getPlayers()[0].get_playerColour()
+					):
+						numberOfWinningConfigurations += 1
+
+        return numberOfWinningConfigurations
