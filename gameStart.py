@@ -208,12 +208,17 @@ if __name__ == "__main__":
                         print("It is the artificial intelligent agent's turn to play now.")
                         if len(i.get_playerTokens()) != 0:
                             if len(i.get_playerTokens()) == 15:
-                                previousMove = CenterPosition[random.randint(0,4)]
+                                previousMove = CenterPosition[random.randrange(0,4)]
                                 i.placeToken(newGame, i.get_playerTokens(), previousMove)
                                 i.set_nbTokens(len(i.get_playerTokens()))
 
                             else:
                                 previousMove = Heuristic.Heuristic.searchList(newGame, previousMove, 1)
+
+                                for move in previousMove:
+                                    if newGame.getGameGrid()[move[0]][move[1]] is not None:
+                                        previousMove.remove(move)
+
                                 previousMove = previousMove[random.randrange(0,(len(previousMove)))]
                                 i.placeToken(newGame, i.get_playerTokens(), previousMove)
                                 i.set_nbTokens(len(i.get_playerTokens()))
