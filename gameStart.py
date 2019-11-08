@@ -8,6 +8,7 @@ if __name__ == "__main__":
     columns = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"]
     CenterPosition = [[4,5],[4,6],[5,5],[5,6]]         #FOR NOW, START AI AT ONE OF THE 4 CENTER POSITIONS
     previousMove = []                                   #GETS THE PREVIOUS MOVE OF THE AI, TO START NEXT HEURISTIC SEARCH AT THE PREVIOUS MOVE
+    possibleMoves = []                                  #LIST OF ALL THE POSSIBLE MOVES THE AI COULD DO THIS TURN
 
     print("----------------------------------------------------------------------------------------------------")
     print("Welcome to the 2-player game called X-Rudder.\n")
@@ -209,17 +210,36 @@ if __name__ == "__main__":
                         if len(i.get_playerTokens()) != 0:
                             if len(i.get_playerTokens()) == 15:
                                 previousMove = CenterPosition[random.randrange(0,4)]
+
+                                print("AI is going to place at :", previousMove)
+
                                 i.placeToken(newGame, i.get_playerTokens(), previousMove)
                                 i.set_nbTokens(len(i.get_playerTokens()))
 
                             else:
-                                previousMove = Heuristic.Heuristic.searchList(newGame, previousMove, 1)
+                                possibleMoves = Heuristic.Heuristic.searchList(newGame, previousMove, 1)
+                                toRemove = []
 
-                                for move in previousMove:
+                                print("Ai found these moves : ", possibleMoves)
+
+                                for move in possibleMoves:
+                                    print("State of position: ", move , " - " , newGame.getGameGrid()[move[0]][move[1]], " - ", newGame.getGameGrid()[move[0]][move[1]] is not None)
+
+                                for move in possibleMoves:
+                                    print("Check if it has to be removed ", move, " - ", newGame.getGameGrid()[move[0]][move[1]] is not None)
                                     if newGame.getGameGrid()[move[0]][move[1]] is not None:
-                                        previousMove.remove(move)
+                                        toRemove.append(move)
+                                
+                                for move in toRemove:
+                                    possibleMoves.remove(move)
 
-                                previousMove = previousMove[random.randrange(0,(len(previousMove)))]
+                                print("These moves are remaining: ", possibleMoves)
+
+                                previousMove = possibleMoves[random.randrange(0,(len(possibleMoves)))]
+
+                                print("AI is going to place at :", previousMove)
+
+
                                 i.placeToken(newGame, i.get_playerTokens(), previousMove)
                                 i.set_nbTokens(len(i.get_playerTokens()))
                         continue

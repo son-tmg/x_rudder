@@ -61,11 +61,11 @@ class Heuristic:
             if (1 <= i <= 8 and 1 <= j <= 10):
                 if (
                         (gameGrid[i + 1][j + 1] == None or gameGrid[i + 1][j + 1].get_tokenColour() ==
-                         game.getPlayers()[0].get_playerColour()) and
+                         game.getPlayers()[0].get_playerColour()) or
                         (gameGrid[i + 1][j - 1] == None or gameGrid[i + 1][j - 1].get_tokenColour() ==
-                         game.getPlayers()[0].get_playerColour()) and
+                         game.getPlayers()[0].get_playerColour()) or
                         (gameGrid[i - 1][j + 1] == None or gameGrid[i - 1][j + 1].get_tokenColour() ==
-                         game.getPlayers()[0].get_playerColour()) and
+                         game.getPlayers()[0].get_playerColour()) or
                         (gameGrid[i - 1][j - 1] == None or gameGrid[i - 1][j - 1].get_tokenColour() ==
                          game.getPlayers()[0].get_playerColour())
                 ):
