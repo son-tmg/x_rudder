@@ -218,7 +218,7 @@ class Heuristic:
                 for x in range(currentMove[1] - 2, currentMove[1] + 3):
                     if game.getGameGrid()[y][x] is None:
                         nextMove = [y,x]
-                        game.getPlayers()[0].placeToken(game, game.getPlayers()[0].get_playerTokens(), nextMove)
+                        game.getPlayers()[1].placeToken(game, game.getPlayers()[1].get_playerTokens(), nextMove)
                         childScore = Heuristic.minimax(game, nextMove, depth - 1, True)
                         if childScore < worst_childScore:
                             worst_childScore = childScore
@@ -227,7 +227,7 @@ class Heuristic:
                             worst_positionList.append(nextMove)
                         elif childScore == worst_childScore:
                             worst_positionList.append(nextMove)
-                        game.getPlayers()[0].get_playerTokens().append(game.getGameGrid()[y][x])
+                        game.getPlayers()[1].get_playerTokens().append(game.getGameGrid()[y][x])
                         game.getGameGrid()[y][x] = None
 
 
