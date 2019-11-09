@@ -266,7 +266,7 @@ if __name__ == "__main__":
 
                                 print(miniGameGrid)"""
 
-                                temp = Heuristic.Heuristic.minimax(newGame, previousMove, 1, True)
+                                temp = Heuristic.Heuristic.minimax(newGame, previousMove, 2, True, previousMove)
 
                                 if newGame.getgameFinished():
                                     print("Player " + i.get_playerName() + " won.")
