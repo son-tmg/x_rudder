@@ -6,8 +6,8 @@ if __name__ == "__main__":
     chosenToken, placementPosition, movementPosition, nbMoves = [], [], [], 0
     rows = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
     columns = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"]
-    CenterPosition = [[4,5],[4,6],[5,5],[5,6]]         #FOR NOW, START AI AT ONE OF THE 4 CENTER POSITIONS
-    previousMove = []                                   #GETS THE PREVIOUS MOVE OF THE AI, TO START NEXT HEURISTIC SEARCH AT THE PREVIOUS MOVE
+    CenterPosition = [[4,5],[4,6],[5,5],[5,6]]          #FOR NOW, START AI AT ONE OF THE 4 CENTER POSITIONS
+    currentMove, previousMove = [], []                  #GETS THE PREVIOUS MOVE OF THE AI, TO START NEXT HEURISTIC SEARCH AT THE PREVIOUS MOVE
     possibleMoves = []                                  #LIST OF ALL THE POSSIBLE MOVES THE AI COULD DO THIS TURN
 
     print("----------------------------------------------------------------------------------------------------")
@@ -209,16 +209,22 @@ if __name__ == "__main__":
                         print("It is the artificial intelligent agent's turn to play now.")
                         if len(i.get_playerTokens()) != 0:
                             if len(i.get_playerTokens()) == 15:
-                                previousMove = CenterPosition[random.randrange(0,4)]
+                                currentMove = CenterPosition[random.randrange(0,4)]
 
-                                print("AI is going to place at :", previousMove)
+                                print("AI is going to place first at :", currentMove)
 
-                                i.placeToken(newGame, i.get_playerTokens(), previousMove)
+                                i.placeToken(newGame, i.get_playerTokens(), currentMove)
                                 i.set_nbTokens(len(i.get_playerTokens()))
+                                previousMove = currentMove
+
+                                print("AI previous move is for first:", previousMove)
 
                             else:
-                                possibleMoves = Heuristic.Heuristic.searchList(newGame, previousMove, 1)
+                                print("AI previous move is :", previousMove)
+
+                                possibleMoves = []
                                 toRemove = []
+                                possibleMoves = Heuristic.Heuristic.searchList(newGame, previousMove, 1)
 
                                 print("Ai found these moves : ", possibleMoves)
 
@@ -235,13 +241,16 @@ if __name__ == "__main__":
 
                                 print("These moves are remaining: ", possibleMoves)
 
-                                previousMove = possibleMoves[random.randrange(0,(len(possibleMoves)))]
+                                currentMove = possibleMoves[random.randrange(0,(len(possibleMoves)))]
 
-                                print("AI is going to place at :", previousMove)
+                                print("AI is going to place at :", currentMove)
 
 
-                                i.placeToken(newGame, i.get_playerTokens(), previousMove)
+                                i.placeToken(newGame, i.get_playerTokens(), currentMove)
                                 i.set_nbTokens(len(i.get_playerTokens()))
+                                previousMove = currentMove
+
+                                print("AI previous move is for end of loop:", previousMove)
                         continue
 
                     while turnType not in ["1", "2"]:

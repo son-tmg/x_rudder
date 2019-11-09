@@ -61,19 +61,19 @@ class Heuristic:
             if (1 <= i <= 8 and 1 <= j <= 10):
                 if (
                         (gameGrid[i + 1][j + 1] == None or gameGrid[i + 1][j + 1].get_tokenColour() ==
-                         game.getPlayers()[0].get_playerColour()) or
+                         game.getPlayers()[0].get_playerColour()) and
                         (gameGrid[i + 1][j - 1] == None or gameGrid[i + 1][j - 1].get_tokenColour() ==
-                         game.getPlayers()[0].get_playerColour()) or
+                         game.getPlayers()[0].get_playerColour()) and
                         (gameGrid[i - 1][j + 1] == None or gameGrid[i - 1][j + 1].get_tokenColour() ==
-                         game.getPlayers()[0].get_playerColour()) or
+                         game.getPlayers()[0].get_playerColour()) and
                         (gameGrid[i - 1][j - 1] == None or gameGrid[i - 1][j - 1].get_tokenColour() ==
                          game.getPlayers()[0].get_playerColour())
                 ):
                     if (
-                            (gameGrid[i][j - 1] == None or gameGrid[i][j - 1].get_tokenColour() == game.getPlayers()[
-                                0].get_playerColour()) and
-                            (gameGrid[i][j + 1] == None or gameGrid[i][j + 1].get_tokenColour() == game.getPlayers()[
-                                0].get_playerColour())
+                            (gameGrid[i][j - 1] == None or gameGrid[i][j - 1].get_tokenColour() ==
+                             game.getPlayers()[0].get_playerColour()) and
+                            (gameGrid[i][j + 1] == None or gameGrid[i][j + 1].get_tokenColour() ==
+                             game.getPlayers()[0].get_playerColour())
 
                     ):
                         numberOfWinningConfigurations += 1
@@ -81,18 +81,18 @@ class Heuristic:
             # top left
             if (0 <= i <= 7 and 0 <= j <= 9):
                 if (
-                        (gameGrid[i][j + 2] == None or gameGrid[i][j + 2].get_tokenColour() == game.getPlayers()[
-                            0].get_playerColour()) and
+                        (gameGrid[i][j + 2] == None or gameGrid[i][j + 2].get_tokenColour() ==
+                         game.getPlayers()[0].get_playerColour()) and
                         (gameGrid[i + 1][j + 1] == None or gameGrid[i + 1][j + 1].get_tokenColour() ==
                          game.getPlayers()[0].get_playerColour()) and
-                        (gameGrid[i + 2][j] == None or gameGrid[i + 2][j].get_tokenColour() == game.getPlayers()[
-                            0].get_playerColour()) and
+                        (gameGrid[i + 2][j] == None or gameGrid[i + 2][j].get_tokenColour() ==
+                         game.getPlayers()[0].get_playerColour()) and
                         (gameGrid[i + 2][j + 2] == None or gameGrid[i + 2][j + 2].get_tokenColour() ==
                          game.getPlayers()[0].get_playerColour())
                 ):
                     if (
-                            (gameGrid[i + 1][j] == None or gameGrid[i + 1][j].get_tokenColour() == game.getPlayers()[
-                                0].get_playerColour()) and
+                            (gameGrid[i + 1][j] == None or gameGrid[i + 1][j].get_tokenColour() ==
+                             game.getPlayers()[0].get_playerColour()) and
                             (gameGrid[i + 1][j + 2] == None or gameGrid[i + 1][j + 2].get_tokenColour() ==
                              game.getPlayers()[0].get_playerColour())
                     ):
@@ -101,18 +101,18 @@ class Heuristic:
             # top right
             if (0 <= i <= 7 and 2 <= j <= 11):
                 if (
-                        (gameGrid[i][j - 2] == None or gameGrid[i][j - 2].get_tokenColour() == game.getPlayers()[
-                            0].get_playerColour()) and
+                        (gameGrid[i][j - 2] == None or gameGrid[i][j - 2].get_tokenColour() ==
+                         game.getPlayers()[0].get_playerColour()) and
                         (gameGrid[i + 1][j - 1] == None or gameGrid[i + 1][j - 1].get_tokenColour() ==
                          game.getPlayers()[0].get_playerColour()) and
                         (gameGrid[i + 2][j - 2] == None or gameGrid[i + 2][j - 2].get_tokenColour() ==
                          game.getPlayers()[0].get_playerColour()) and
-                        (gameGrid[i + 2][j] == None or gameGrid[i + 2][j].get_tokenColour() == game.getPlayers()[
-                            0].get_playerColour())
+                        (gameGrid[i + 2][j] == None or gameGrid[i + 2][j].get_tokenColour() ==
+                         game.getPlayers()[0].get_playerColour())
                 ):
                     if (
-                            (gameGrid[i + 1][j] == None or gameGrid[i + 1][j].get_tokenColour() == game.getPlayers()[
-                                0].get_playerColour()) and
+                            (gameGrid[i + 1][j] == None or gameGrid[i + 1][j].get_tokenColour() ==
+                             game.getPlayers()[0].get_playerColour()) and
                             (gameGrid[i + 1][j - 2] == None or gameGrid[i + 1][j - 2].get_tokenColour() ==
                              game.getPlayers()[0].get_playerColour())
                     ):
@@ -121,18 +121,18 @@ class Heuristic:
             # bottom left
             if (2 <= i <= 9 and 0 <= j <= 9):
                 if (
-                        (gameGrid[i - 2][j] == None or gameGrid[i - 2][j].get_tokenColour() == game.getPlayers()[
-                            0].get_playerColour()) and
-                        (gameGrid[i][j + 2] == None or gameGrid[i][j + 2].get_tokenColour() == game.getPlayers()[
-                            0].get_playerColour()) and
+                        (gameGrid[i - 2][j] == None or gameGrid[i - 2][j].get_tokenColour() ==
+                         game.getPlayers()[0].get_playerColour()) and
+                        (gameGrid[i][j + 2] == None or gameGrid[i][j + 2].get_tokenColour() ==
+                         game.getPlayers()[0].get_playerColour()) and
                         (gameGrid[i - 1][j + 1] == None or gameGrid[i - 1][j + 1].get_tokenColour() ==
                          game.getPlayers()[0].get_playerColour()) and
                         (gameGrid[i - 2][j + 2] == None or gameGrid[i - 2][j + 2].get_tokenColour() ==
                          game.getPlayers()[0].get_playerColour())
                 ):
                     if (
-                            (gameGrid[i - 1][j] == None or gameGrid[i - 1][j].get_tokenColour() == game.getPlayers()[
-                                0].get_playerColour()) and
+                            (gameGrid[i - 1][j] == None or gameGrid[i - 1][j].get_tokenColour() ==
+                             game.getPlayers()[0].get_playerColour()) and
                             (gameGrid[i - 1][j + 2] == None or gameGrid[i - 1][j + 2].get_tokenColour() ==
                              game.getPlayers()[0].get_playerColour())
                     ):
@@ -141,18 +141,18 @@ class Heuristic:
             # bottom right
             if (2 <= i <= 9 and 2 <= j <= 11):
                 if (
-                        (gameGrid[i - 2][j] == None or gameGrid[i - 2][j].get_tokenColour() == game.getPlayers()[
-                            0].get_playerColour()) and
+                        (gameGrid[i - 2][j] == None or gameGrid[i - 2][j].get_tokenColour() ==
+                         game.getPlayers()[0].get_playerColour()) and
                         (gameGrid[i - 1][j - 1] == None or gameGrid[i - 1][j - 1].get_tokenColour() ==
                          game.getPlayers()[0].get_playerColour()) and
-                        (gameGrid[i][j - 2] == None or gameGrid[i][j - 2].get_tokenColour() == game.getPlayers()[
-                            0].get_playerColour()) and
+                        (gameGrid[i][j - 2] == None or gameGrid[i][j - 2].get_tokenColour() ==
+                         game.getPlayers()[0].get_playerColour()) and
                         (gameGrid[i - 2][j - 2] == None or gameGrid[i - 2][j - 2].get_tokenColour() ==
                          game.getPlayers()[0].get_playerColour())
                 ):
                     if (
-                            (gameGrid[i - 1][j] == None or gameGrid[i - 1][j].get_tokenColour() == game.getPlayers()[
-                                0].get_playerColour()) and
+                            (gameGrid[i - 1][j] == None or gameGrid[i - 1][j].get_tokenColour() ==
+                             game.getPlayers()[0].get_playerColour()) and
                             (gameGrid[i - 1][j - 2] == None or gameGrid[i - 1][j - 2].get_tokenColour() ==
                              game.getPlayers()[0].get_playerColour())
                     ):
@@ -164,16 +164,19 @@ class Heuristic:
         y = searchPosition[0]
         x = searchPosition[1]
         maxList = []
-
+        """
         if game.getGameGrid()[y][x] is None:
             maxScore = searchScore(game, searchPosition)
             maxList.append(searchPosition)
         else:
-            maxScore = 0
+        """
+        maxScore = 0
 
         #if (0 <= y-maxDepth <= 9 and 0 <= x-maxDepth <= 11) and (0 <= y+maxDepth <= 9 and 0 <= x+maxDepth <= 11):
         for i in range(y-maxDepth, y+(maxDepth+1)):
             for j in range(x-maxDepth, x+(maxDepth+1)):
+                if game.getGameGrid()[i][j] is not None:
+                    continue
                 if (0 <= i <= 9 and 0 <= j <= 11):
                     if searchScore(game, [i, j]) > maxScore:
                         maxScore = searchScore(game, [i, j])
@@ -184,4 +187,3 @@ class Heuristic:
                         maxList.append([i, j])
 
         return maxList
-
