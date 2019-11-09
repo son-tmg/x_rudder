@@ -220,7 +220,7 @@ if __name__ == "__main__":
                                 print("AI previous move is for first:", previousMove)
 
                             else:
-                                print("AI previous move is :", previousMove)
+                                """print("AI previous move is :", previousMove)
 
                                 possibleMoves = []
                                 toRemove = []
@@ -250,11 +250,27 @@ if __name__ == "__main__":
                                 i.set_nbTokens(len(i.get_playerTokens()))
                                 previousMove = currentMove
 
-                                print("AI previous move is for end of loop:", previousMove)
+                                print("AI previous move is for end of loop:", previousMove)"""
+
+                                """k = 0
+                                miniGameGrid = []
+
+                                for y in range(previousMove[0]-2, previousMove[0]+3):
+                                    miniGameGrid.append([])
+                                    for x in range (previousMove[1]-2, previousMove[1]+3):
+                                        if newGame.getGameGrid()[y][x] is not None:
+                                            miniGameGrid[k].append(newGame.getGameGrid()[y][x])
+                                        else:
+                                            miniGameGrid[k].append([y,x])
+                                    k += 1
+
+                                print(miniGameGrid)"""
+
+                                temp = Heuristic.Heuristic.minimax(newGame, previousMove, 1, True)
 
                                 if newGame.getgameFinished():
-                                        print("Player " + i.get_playerName() + " won.")
-                                        exit(1)
+                                    print("Player " + i.get_playerName() + " won.")
+                                    exit(1)
                         continue
 
                     while turnType not in ["1", "2"]:
