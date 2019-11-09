@@ -251,6 +251,10 @@ if __name__ == "__main__":
                                 previousMove = currentMove
 
                                 print("AI previous move is for end of loop:", previousMove)
+
+                                if newGame.getgameFinished():
+                                        print("Player " + i.get_playerName() + " won.")
+                                        exit(1)
                         continue
 
                     while turnType not in ["1", "2"]:
