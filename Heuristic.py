@@ -1,4 +1,4 @@
-import Game, Player, Token, random
+import Game, Player, Token, random, Node, copy
 
 class Heuristic:
     """The heuristic function used for the AI"""
@@ -193,44 +193,46 @@ class Heuristic:
         if depth == 0:
             return Heuristic.searchScore11(game, currentMove)
 
-        childScore, best_childScore, worst_childScore = 0, 0, 0
-        best_positionList, worst_positionList = [], []
-
         if maximizingPlayer:
+
+            childScore, best_childScore = Node.Node(0,[]), 0
             for y in range(origin[0] - 2, origin[0] + 3):
                 for x in range(origin[1] - 2, origin[1] + 3):
                     if game.getGameGrid()[y][x] is None:
                         nextMove = [y,x]
                         game.getPlayers()[0].placeToken(game, game.getPlayers()[0].get_playerTokens(), nextMove)
-                        childScore = Heuristic.minimax(game, nextMove, depth - 1, False, origin)
-                        print(childScore, "max")
-                        if childScore > best_childScore:
-                            best_childScore = childScore
-                            for position in best_positionList:
-                                best_positionList.pop()
-                            best_positionList.append(nextMove)
-                        elif childScore == best_childScore:
-                            best_positionList.append(nextMove)
+                        childScore.set_score(max(childScore.get_score(), Heuristic.minimax(game, nextMove, depth - 1, False, origin)))
+
+                        if best_childScore != childScore.get_score():
+                            childScore.set_position(nextMove)
+                            best_childScore = childScore.get_score()
+
+                        print(childScore.get_score(), childScore.get_position(), best_childScore, "max")
+
                         game.getPlayers()[0].get_playerTokens().append(game.getGameGrid()[y][x])
                         game.getGameGrid()[y][x] = None
 
+            return childScore
+
         else:
+            childScore, worst_childScore = Node.Node(1000,[]), 1000
             for y in range(origin[0] - 2, origin[0] + 3):
                 for x in range(origin[1] - 2, origin[1] + 3):
                     if game.getGameGrid()[y][x] is None:
                         nextMove = [y,x]
                         game.getPlayers()[1].placeToken(game, game.getPlayers()[1].get_playerTokens(), nextMove)
-                        childScore = Heuristic.minimax(game, nextMove, depth - 1, True, origin)
-                        print(childScore, "min")
-                        if childScore < worst_childScore:
-                            worst_childScore = childScore
-                            for position in worst_positionList:
-                                worst_positionList.pop()
-                            worst_positionList.append(nextMove)
-                        elif childScore == worst_childScore:
-                            worst_positionList.append(nextMove)
+                        childScore.set_score(min(childScore.get_score(), Heuristic.minimax(game, nextMove, depth - 1, True, origin)))
+
+                        if worst_childScore != childScore.get_score():
+                            childScore.set_position(nextMove)
+                            worst_childScore = childScore.get_score()
+
+                        print(childScore.get_score(), childScore.get_position(), worst_childScore, "min")
+
                         game.getPlayers()[1].get_playerTokens().append(game.getGameGrid()[y][x])
                         game.getGameGrid()[y][x] = None
+
+            return childScore.get_score()
 
     #-------------------------------------------------------------------------------------------------------------------
 
@@ -381,3 +383,65 @@ class Heuristic:
                     numberOfWinningConfigurations += 1
 
         return numberOfWinningConfigurations
+
+    """    def minimax(game, currentMove, depth, maximizingPlayer, origin):
+            if depth == 0:
+                return Heuristic.searchScore11(game, currentMove)
+
+            if maximizingPlayer:
+                childScore, best_childScore = 0, 0
+                best_positionList = []
+                for y in range(origin[0] - 2, origin[0] + 3):
+                    for x in range(origin[1] - 2, origin[1] + 3):
+                        if game.getGameGrid()[y][x] is None:
+                            nextMove = [y,x]
+                            game.getPlayers()[0].placeToken(game, game.getPlayers()[0].get_playerTokens(), nextMove)
+                            childScore = max(childScore, Heuristic.minimax(game, nextMove, depth - 1, False, origin))
+                            print(childScore, "max")
+                            print(best_childScore, "best child score before")
+                            print(best_positionList, "best list before")
+                            
+    if childScore > best_childScore:
+        best_childScore = childScore
+        for position in best_positionList:
+            best_positionList.pop()
+        best_positionList.append(nextMove)
+    elif childScore == best_childScore:
+        best_positionList.append(nextMove)
+        
+                            print(best_childScore, "best child score after")
+                            print(best_positionList, "best list after")
+                            game.getPlayers()[0].get_playerTokens().append(game.getGameGrid()[y][x])
+                            game.getGameGrid()[y][x] = None
+                            print(childScore, "max, last")
+
+                return childScore
+
+            else:
+                childScore, worst_childScore = 100, 0
+                worst_positionList = []
+                for y in range(origin[0] - 2, origin[0] + 3):
+                    for x in range(origin[1] - 2, origin[1] + 3):
+                        if game.getGameGrid()[y][x] is None:
+                            nextMove = [y,x]
+                            game.getPlayers()[1].placeToken(game, game.getPlayers()[1].get_playerTokens(), nextMove)
+                            childScore = min(childScore, Heuristic.minimax(game, nextMove, depth - 1, True, origin))
+                            print(childScore, "min")
+                            print(worst_childScore, "worst child score before")
+                            print(worst_positionList, "worst list before")
+                            
+        if childScore < worst_childScore:
+            worst_childScore = childScore
+        for position in worst_positionList:
+            worst_positionList.pop()
+        worst_positionList.append(nextMove)
+    elif childScore == worst_childScore:
+        worst_positionList.append(nextMove)
+        
+                            print(worst_childScore, "worst child score after")
+                            print(worst_positionList, "worst list after")
+                            game.getPlayers()[1].get_playerTokens().append(game.getGameGrid()[y][x])
+                            game.getGameGrid()[y][x] = None
+                            print(childScore, "min, last")
+
+                return childScore"""

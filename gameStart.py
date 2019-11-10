@@ -1,4 +1,4 @@
-import Game, Player, Token, Heuristic, math, random
+import Game, Player, Token, Heuristic, math, random, Node
 
 if __name__ == "__main__":
     startState = False
@@ -267,6 +267,10 @@ if __name__ == "__main__":
                                 print(miniGameGrid)"""
 
                                 temp = Heuristic.Heuristic.minimax(newGame, previousMove, 2, True, previousMove)
+
+                                i.placeToken(newGame, i.get_playerTokens(), temp.get_position())
+                                i.set_nbTokens(len(i.get_playerTokens()))
+                                previousMove = temp.get_position()
 
                                 if newGame.getgameFinished():
                                     print("Player " + i.get_playerName() + " won.")
