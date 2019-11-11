@@ -1,4 +1,4 @@
-import Game, Player, Token, node, math, copy,time
+import Game, Player, Token, node, copy,time
 
 class Heuristic:
     """The heuristic object contains the minimax function for a game grid"""
@@ -43,12 +43,12 @@ class Heuristic:
 
         max_tokens = []
 
-        for row in range(2,8):
-            for column in range(2,10):
+        for row in range(2,6):
+            for column in range(4,8):
                 if state.getGameGrid()[row][column] is not None:
                     token = state.getGameGrid()[row][column]
-                    if token.get_tokenColour == max_token_colour:
-                        max_tokens.apend(token)
+                    if token.get_tokenColour() == max_token_colour:
+                        max_tokens.append(token)
 
         for token in max_tokens:
             tokens_left_to_win_as_center = 0
@@ -60,7 +60,7 @@ class Heuristic:
             TR = [i-1,j+1]  #Top right
             BL = [i+1,j-1]  #bottom left
             BR = [i+1,j+1]  #bottom right
-            corners.extend(TL,TR,BL,BR)
+            corners.extend([TL,TR,BL,BR])
 
             # for each of the corners, check if they have the same colour as max_token_colour
             for corner in corners:
@@ -91,8 +91,8 @@ class Heuristic:
         max_token = []
 
         #find all centered max tokens
-        for row in range(2,8):
-            for column in range(2,10):
+        for row in range(2,6):
+            for column in range(4,8):
                 if state.getGameGrid()[row][column] is not None:
                     token = state.getGameGrid()[row][column]
                     if token.get_tokenColour() == max_token_colour:
@@ -108,17 +108,20 @@ class Heuristic:
             blocking_right_tokens = 0  #number of right side tokens
             left = [i,j-1]  # left
             right = [i,j+1]  # right
+            
 
-            # for each of the corners, check if they have the same colour as max_token_colour
+            # for the left and ride sides, check if they have the same colour as max_token_colour
             
 
             if state.getGameGrid()[left[0]][left[1]] is not None:
+
                 left_token = state.getGameGrid()[left[0]][left[1]]
-                if token.get_tokenColour() == min_token_colour:
+                if token.get_tokenColour() != min_token_colour:
                      blocking_left_tokens += 1
 
+            if state.getGameGrid()[right[0]][right[1]] is not None:
                 right_token = state.getGameGrid()[right[0]][right[1]]
-                if token.get_tokenColour() == min_token_colour:
+                if token.get_tokenColour() != min_token_colour:
                     blocking_right_tokens += 1
 
         opponent_tokens_to_the_left_and_right = blocking_left_tokens + blocking_right_tokens
@@ -141,8 +144,8 @@ class Heuristic:
         possible_movements = []     #list containing list of possible token movements
         
 
-        for row in range(2,8):
-            for column in range(2,10):
+        for row in range(2,6):
+            for column in range(4,8):
                 if root.get_element().getGameGrid()[row][column] is None:
                     possible_placements.append([row,column])
                 else :
@@ -194,7 +197,7 @@ class Heuristic:
             return self.utility(node)
 
         if maximizing_player:
-            v = -math.inf
+            v = float('-inf')
             for child in node.get_list_of_children():
                 v = max([v,self.alphabeta(child,depth - 1,alpha, beta, False )])
                 alpha = max([alpha,v])
@@ -202,7 +205,7 @@ class Heuristic:
                     break
             return v
         else :
-            v = math.inf
+            v = float('inf')
             for child in node.get_list_of_children():
                 v = min([v,self.alphabeta(child,depth - 1, alpha, beta,False )])
                 beta = min([beta,v])
@@ -234,6 +237,22 @@ if __name__ == "__main__":
     
     # print(heuristic.feature1(heuristic.get_game_node().get_element(),True))
 
-    returned = heuristic.alphabeta(heuristic.get_game_node(),2,-math.inf,math.inf,True)
+    inf = float('inf')
+    neg_inf = float('-inf')
+
+    returned = heuristic.alphabeta(heuristic.get_game_node(),2,neg_inf,inf,True)
 
     print(returned)
+
+
+
+
+
+
+
+
+
+
+
+
+
