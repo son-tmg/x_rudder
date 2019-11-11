@@ -195,44 +195,44 @@ class Heuristic:
 
         if maximizingPlayer:
 
-            childScore, best_childScore = Node.Node(0,[]), 0
+            childScoreMax, best_childScore = Node.Node(0,[]), 0
             for y in range(origin[0] - 2, origin[0] + 3):
                 for x in range(origin[1] - 2, origin[1] + 3):
                     if game.getGameGrid()[y][x] is None:
                         nextMove = [y,x]
                         game.getPlayers()[0].placeToken(game, game.getPlayers()[0].get_playerTokens(), nextMove)
-                        childScore.set_score(max(childScore.get_score(), Heuristic.minimax(game, nextMove, depth - 1, False, origin)))
+                        childScoreMax.set_score(max(childScoreMax.get_score(), Heuristic.minimax(game, nextMove, depth - 1, False, origin)))
 
-                        if best_childScore != childScore.get_score():
-                            childScore.set_position(nextMove)
-                            best_childScore = childScore.get_score()
+                        if best_childScore != childScoreMax.get_score():
+                            childScoreMax.set_position(nextMove)
+                            best_childScore = childScoreMax.get_score()
 
-                        print(childScore.get_score(), childScore.get_position(), best_childScore, "max")
+                        print(childScoreMax.get_score(), childScoreMax.get_position(), best_childScore, "max")
 
                         game.getPlayers()[0].get_playerTokens().append(game.getGameGrid()[y][x])
                         game.getGameGrid()[y][x] = None
 
-            return childScore
+            return childScoreMax
 
         else:
-            childScore, worst_childScore = Node.Node(1000,[]), 1000
+            childScoreMin, worst_childScore = Node.Node(1000,[]), 1000
             for y in range(origin[0] - 2, origin[0] + 3):
                 for x in range(origin[1] - 2, origin[1] + 3):
                     if game.getGameGrid()[y][x] is None:
                         nextMove = [y,x]
                         game.getPlayers()[1].placeToken(game, game.getPlayers()[1].get_playerTokens(), nextMove)
-                        childScore.set_score(min(childScore.get_score(), Heuristic.minimax(game, nextMove, depth - 1, True, origin)))
+                        childScoreMin.set_score(min(childScoreMin.get_score(), Heuristic.minimax(game, nextMove, depth - 1, True, origin)))
 
-                        if worst_childScore != childScore.get_score():
-                            childScore.set_position(nextMove)
-                            worst_childScore = childScore.get_score()
+                        if worst_childScore != childScoreMin.get_score():
+                            childScoreMin.set_position(nextMove)
+                            worst_childScore = childScoreMin.get_score()
 
-                        print(childScore.get_score(), childScore.get_position(), worst_childScore, "min")
+                        print(childScoreMin.get_score(), childScoreMin.get_position(), worst_childScore, "min")
 
                         game.getPlayers()[1].get_playerTokens().append(game.getGameGrid()[y][x])
                         game.getGameGrid()[y][x] = None
 
-            return childScore.get_score()
+            return childScoreMin.get_score()
 
     #-------------------------------------------------------------------------------------------------------------------
 
@@ -247,9 +247,9 @@ class Heuristic:
         y = searchPosition[0]
         x = searchPosition[1]
 
-        """score1 = 0.2 * (15 - game.getPlayers()[0].get_nbTokens())
+        score1 = 0.2 * (15 - game.getPlayers()[0].get_nbTokens())
         score2 = -0.1 * (15 - game.getPlayers()[1].get_nbTokens())
-        score3 = 0
+        """score3 = 0
         score4 = 0"""
         score5 = Heuristic.getNumberOfWinningConfigurations1(game, searchPosition)
 
@@ -264,7 +264,7 @@ class Heuristic:
         score3 *= 0.2
         score4 *= -0.1"""
 
-        return score5
+        return (score1 + score2 + score5)
 
     def getNumberOfWinningConfigurations1(game, searchPosition):
         """

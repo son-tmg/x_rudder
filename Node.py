@@ -24,4 +24,4 @@ class Node:
 
     def set_position(self,position):
         """Set the position of the node"""
-        self._position = position
+        self._position = [position[0], position[1]]

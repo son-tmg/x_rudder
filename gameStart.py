@@ -266,8 +266,8 @@ if __name__ == "__main__":
 
                                 print(miniGameGrid)"""
 
-                                temp = Heuristic.Heuristic.minimax(newGame, previousMove, 2, True, previousMove)
-
+                                temp = Heuristic.Heuristic.minimax(newGame, previousMove, 1, True, previousMove)
+                                print(temp, temp.get_score(), temp.get_position())
                                 i.placeToken(newGame, i.get_playerTokens(), temp.get_position())
                                 i.set_nbTokens(len(i.get_playerTokens()))
                                 previousMove = temp.get_position()
