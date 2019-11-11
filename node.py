@@ -15,7 +15,6 @@ class node:
     def set_element(self,element):
         self._element = element
 
-    
     def add_to_list_of_children(self,child):
         #adds child to the end of the list of children
         self._list_of_children.append(child)

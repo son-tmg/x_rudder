@@ -191,7 +191,7 @@ class Game:
 		#if none of the 5 winning configurations were found, this means the player has not won yet and the game continues.
 
 
-	def placeToken(self, token, newPosition):
+	def place_token(self, token, newPosition):
 		"""
 		Method to Place an unused token on the game grid
 
@@ -203,7 +203,7 @@ class Game:
 		self.updateGameGrid(token, newPosition)
 		self.checkState(token)
 
-	def moveToken(self, token, oldPosition, newPosition):
+	def move_token(self, token, oldPosition, newPosition):
 		"""
 		Method to move a used token on the game grid
 
@@ -215,3 +215,8 @@ class Game:
 		self.getGameGrid()[oldPosition[0]][oldPosition[1]] = None
 		self.updateGameGrid(token, newPosition)
 		self.checkState(token)
+
+	def check_valid_movement(self,token,oldPosition,newPosition):
+		"""method that checks if a movement is valid"""
+
+
