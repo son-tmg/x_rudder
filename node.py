@@ -5,12 +5,19 @@ class node:
     def __init__(self, element):
         self._element = element
         self._list_of_children = []
+        self._next_move= None
+
+    def set_next_move(self,next_move):
+        self._next_move = next_move
 
     def get_element(self):
         return self._element
     
     def get_list_of_children(self):
         return self._list_of_children
+
+    def get_next_move(self):
+        return self._next_move
 
     def set_element(self,element):
         self._element = element

@@ -1,4 +1,4 @@
-import Game, Player, Token, Heuristic, math, random
+import Game, Player, Token, Heuristic, math, random, time
 
 if __name__ == "__main__":
     startState = False
@@ -206,55 +206,110 @@ if __name__ == "__main__":
                         exit(1)
 
                     if i == newGame.getPlayers()[0]:
+                        
                         print("It is the artificial intelligent agent's turn to play now.")
+
                         if len(i.get_playerTokens()) != 0:
-                            if len(i.get_playerTokens()) == 15:
-                                currentMove = CenterPosition[random.randrange(0,4)]
 
-                                print("AI is going to place first at :", currentMove)
+                            inf = float('inf')
+                            neg_inf = float('-inf')
 
-                                i.placeToken(newGame, i.get_playerTokens(), currentMove)
-                                i.set_nbTokens(len(i.get_playerTokens()))
-                                previousMove = currentMove
+                            start = time.time()
 
-                                print("AI previous move is for first:", previousMove)
+                            heuristic = Heuristic.Heuristic(newGame)    #create a new heuristic object
+                            heuristic.generate_game_states(heuristic.get_game_node(),True,1)            # generate game states
+                            child_node = heuristic.alphabeta(heuristic.get_game_node(),1,neg_inf,inf,True)   #find the best next move
+                            next_position = child_node[1].get_next_move()
 
-                            else:
-                                print("AI previous move is :", previousMove)
+                            end = time.time()
+                            print("It took ", end - start , "seconds to generate nodes till depth 2.")
+                            previousMove.append(next_position)
+                            print(previousMove)
 
-                                possibleMoves = []
-                                toRemove = []
-                                possibleMoves = Heuristic.Heuristic.searchList(newGame, previousMove, 1)
+                            print("AI will place at : " , next_position)
 
-                                print("Ai found these moves : ", possibleMoves)
+                            i.placeToken(newGame, i.get_playerTokens(), next_position)
+                            i.set_nbTokens(len(i.get_playerTokens()))
+                            newGame.printGameGrid()
 
-                                for move in possibleMoves:
-                                    print("State of position: ", move , " - " , newGame.getGameGrid()[move[0]][move[1]], " - ", newGame.getGameGrid()[move[0]][move[1]] is not None)
 
-                                for move in possibleMoves:
-                                    print("Check if it has to be removed ", move, " - ", newGame.getGameGrid()[move[0]][move[1]] is not None)
-                                    if newGame.getGameGrid()[move[0]][move[1]] is not None:
-                                        toRemove.append(move)
+                            # if len(i.get_playerTokens()) == 15:
                                 
-                                for move in toRemove:
-                                    possibleMoves.remove(move)
+                            #     inf = float('inf')
+                            #     neg_inf = float('-inf')
 
-                                print("These moves are remaining: ", possibleMoves)
+                            #     heuristic = Heuristic.Heuristic(newGame)    #create a new heuristic object
+                            #     heuristic.generate_game_states(heuristic.get_game_node(),True,2)            # generate game states
+                            #     child_node = heuristic.alphabeta(heuristic.get_game_node(),2,neg_inf,inf,True)   #find the best next move
+                            #     next_node = child_node[1]
 
-                                currentMove = possibleMoves[random.randrange(0,(len(possibleMoves)))]
+                            #     for row in [0,9]:
+                            #         for col in [0,11]:
+                            #             if next_node.get_element().getGameGrid()[row][col] is not None: 
+                            #                 next_position = next_node.get_element().getGameGrid()[row][col].get_tokenPosition()
 
-                                print("AI is going to place at :", currentMove)
+                            #     print("AI will place at : " , next_position)
+
+                            #     i.placeToken(newGame, i.get_playerTokens(), next_position)
+                            #     i.set_nbTokens(len(i.get_playerTokens()))
+                                
+                            # else:
+
+                            #     inf = float('inf')
+                            #     neg_inf = float('-inf')
+
+                            #     heuristic = Heuristic.Heuristic(newGame)    #create a new heuristic object
+                            #     heuristic.generate_game_states(heuristic.get_game_node(),True,2)            # generate game states
+                            #     child_node = heuristic.alphabeta(heuristic.get_game_node(),2,neg_inf,inf,True)   #find the best next move
+                            #     next_node = child_node[1]
+
+                            #     for row in [0,9]:
+                            #         for col in [0,11]:
+                            #             if next_node.get_element().getGameGrid()[row][col] is not None: 
+                            #                 next_position = next_node.get_element().getGameGrid()[row][col].get_tokenPosition()
+
+                            #     print("AI will place at : " , next_position)
+
+                            #     i.placeToken(newGame, i.get_playerTokens(), next_position)
+                            #     i.set_nbTokens(len(i.get_playerTokens()))
 
 
-                                i.placeToken(newGame, i.get_playerTokens(), currentMove)
-                                i.set_nbTokens(len(i.get_playerTokens()))
-                                previousMove = currentMove
 
-                                print("AI previous move is for end of loop:", previousMove)
+                            #     # print("AI previous move is :", previousMove)
 
-                                if newGame.getgameFinished():
-                                        print("Player " + i.get_playerName() + " won.")
-                                        exit(1)
+                            #     # possibleMoves = []
+                            #     # toRemove = []
+                            #     # possibleMoves = Heuristic.Heuristic.searchList(newGame, previousMove, 1)
+
+                            #     # print("Ai found these moves : ", possibleMoves)
+
+                            #     # for move in possibleMoves:
+                            #     #     print("State of position: ", move , " - " , newGame.getGameGrid()[move[0]][move[1]], " - ", newGame.getGameGrid()[move[0]][move[1]] is not None)
+
+                            #     # for move in possibleMoves:
+                            #     #     print("Check if it has to be removed ", move, " - ", newGame.getGameGrid()[move[0]][move[1]] is not None)
+                            #     #     if newGame.getGameGrid()[move[0]][move[1]] is not None:
+                            #     #         toRemove.append(move)
+                                
+                            #     # for move in toRemove:
+                            #     #     possibleMoves.remove(move)
+
+                            #     # print("These moves are remaining: ", possibleMoves)
+
+                            #     # currentMove = possibleMoves[random.randrange(0,(len(possibleMoves)))]
+
+                            #     # print("AI is going to place at :", currentMove)
+
+
+                            #     # i.placeToken(newGame, i.get_playerTokens(), currentMove)
+                            #     # i.set_nbTokens(len(i.get_playerTokens()))
+                            #     # previousMove = currentMove
+
+                            #     # print("AI previous move is for end of loop:", previousMove)
+
+                            #     if newGame.getgameFinished():
+                            #             print("Player " + i.get_playerName() + " won.")
+                            #             exit(1)
                         continue
 
                     while turnType not in ["1", "2"]:
