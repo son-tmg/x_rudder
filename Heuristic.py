@@ -201,6 +201,9 @@ class Heuristic:
                     if game.getGameGrid()[y][x] is None:
                         nextMove = [y,x]
                         game.getPlayers()[0].placeToken(game, game.getPlayers()[0].get_playerTokens(), nextMove)
+                        if game.getgameFinished():
+                            print("Player " + game.getPlayers()[0].get_playerName() + " won.")
+                            exit(1)
                         childScoreMax.set_score(max(childScoreMax.get_score(), Heuristic.minimax(game, nextMove, depth - 1, False, origin)))
 
                         if best_childScore != childScoreMax.get_score():
