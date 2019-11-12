@@ -343,13 +343,15 @@ class Heuristic:
                 T = [row-1,col]  #top
                 TL = [row-1,col-1] #Top left
                 TR = [row-1,col+1] #Top right
+                L = [row,col-1] #Left
+                R = [row,col+1] #right
                 B = [row+1,col]  #bottom
                 BL = [row+1,col-1] #bottom left
                 BR = [row+1,col+1] #bottom right
 
                 #check if the positions are within the grid and empty if these tokens and add them to valid movements_max
                 if T[0] in range(7,10) and T[1] in range(0,3) and root.get_element().getGameGrid()[T[0]][T[1]] is None:
-                        valid_movements_max.append(T)
+                    valid_movements_max.append(T)
                 if TL[0] in range(7,10) and TL[1] in range(0,3) and root.get_element().getGameGrid()[T[0]][T[1]] is None:
                     valid_movements_max.append(TL)
                 if TR[0] in range(7,10) and TR[1] in range(0,3) and root.get_element().getGameGrid()[T[0]][T[1]] is None:
@@ -393,9 +395,12 @@ class Heuristic:
                 col = old_position[1]
                 valid_movements_min = [] #list containing movements that are valid : more specifically, these positions are not occuppied already in the grid
 
+                #Generate all possible positions of movement 1
                 T = [row-1,col]  #top
                 TL = [row-1,col-1] #Top left
                 TR = [row-1,col+1] #Top right
+                L = [row,col-1] #Left
+                R = [row,col+1] #right
                 B = [row+1,col]  #bottom
                 BL = [row+1,col-1] #bottom left
                 BR = [row+1,col+1] #bottom right
