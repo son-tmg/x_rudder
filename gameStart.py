@@ -219,53 +219,7 @@ if __name__ == "__main__":
 
                                 print("AI previous move is for first:", previousMove)
 
-                            else:
-                                """print("AI previous move is :", previousMove)
-
-                                possibleMoves = []
-                                toRemove = []
-                                possibleMoves = Heuristic.Heuristic.searchList(newGame, previousMove, 1)
-
-                                print("Ai found these moves : ", possibleMoves)
-
-                                for move in possibleMoves:
-                                    print("State of position: ", move , " - " , newGame.getGameGrid()[move[0]][move[1]], " - ", newGame.getGameGrid()[move[0]][move[1]] is not None)
-
-                                for move in possibleMoves:
-                                    print("Check if it has to be removed ", move, " - ", newGame.getGameGrid()[move[0]][move[1]] is not None)
-                                    if newGame.getGameGrid()[move[0]][move[1]] is not None:
-                                        toRemove.append(move)
-                                
-                                for move in toRemove:
-                                    possibleMoves.remove(move)
-
-                                print("These moves are remaining: ", possibleMoves)
-
-                                currentMove = possibleMoves[random.randrange(0,(len(possibleMoves)))]
-
-                                print("AI is going to place at :", currentMove)
-
-
-                                i.placeToken(newGame, i.get_playerTokens(), currentMove)
-                                i.set_nbTokens(len(i.get_playerTokens()))
-                                previousMove = currentMove
-
-                                print("AI previous move is for end of loop:", previousMove)"""
-
-                                """k = 0
-                                miniGameGrid = []
-
-                                for y in range(previousMove[0]-2, previousMove[0]+3):
-                                    miniGameGrid.append([])
-                                    for x in range (previousMove[1]-2, previousMove[1]+3):
-                                        if newGame.getGameGrid()[y][x] is not None:
-                                            miniGameGrid[k].append(newGame.getGameGrid()[y][x])
-                                        else:
-                                            miniGameGrid[k].append([y,x])
-                                    k += 1
-
-                                print(miniGameGrid)"""
-
+                            else: #elif len(i.get_playerTokens()) > 0:
                                 temp = Heuristic.Heuristic.minimax(newGame, previousMove, 1, True, previousMove)
                                 print(temp, temp.get_score(), temp.get_position())
                                 i.placeToken(newGame, i.get_playerTokens(), temp.get_position())
