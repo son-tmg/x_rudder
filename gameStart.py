@@ -217,8 +217,8 @@ if __name__ == "__main__":
                             start = time.time()
 
                             heuristic = Heuristic.Heuristic(newGame)    #create a new heuristic object
-                            heuristic.generate_game_states(heuristic.get_game_node(),True,1)            # generate game states
-                            child_node = heuristic.alphabeta(heuristic.get_game_node(),1,neg_inf,inf,True)   #find the best next move
+                            heuristic.generate_game_states(heuristic.get_game_node(),True,2)            # generate game states
+                            child_node = heuristic.alphabeta(heuristic.get_game_node(),2,neg_inf,inf,True)   #find the best next move
                             next_position = child_node[1].get_next_move()
 
                             end = time.time()

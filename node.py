@@ -6,9 +6,7 @@ class node:
         self._element = element
         self._list_of_children = []
         self._next_move= None
-
-    def set_next_move(self,next_move):
-        self._next_move = next_move
+        self._utility_score = None
 
     def get_element(self):
         return self._element
@@ -19,24 +17,19 @@ class node:
     def get_next_move(self):
         return self._next_move
 
+    def get_utility_score(self):
+        return self._utility_score
+
+    def set_next_move(self,next_move):
+        self._next_move = next_move
+
     def set_element(self,element):
         self._element = element
+
+    def set_utility_score(self,score):
+        self._utility_score = score
 
     def add_to_list_of_children(self,child):
         #adds child to the end of the list of children
         self._list_of_children.append(child)
 
-
-if __name__ == "__main__":
-
-    player1 = Player.Player("Sonam","Black")
-    player2 = Player.Player("Sashank",'White')
-    players= []
-
-    players.append(player1)
-    players.append(player2)
-    print(players)
-
-    newGame = Game.Game(players)
-    newNode = node(newGame)
-    print(newNode)

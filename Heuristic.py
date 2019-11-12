@@ -16,8 +16,8 @@ class Heuristic:
             node : node containing game object
         """
         utility = 0
-        utility = self.getNumberOfWinningConfigurations1(node)
-        #utility = 5*self.feature1(node) -4*self.feature2(node)
+        utility = 3*self.getNumberOfWinningConfigurations1(node)
+        #utility = 4*self.feature1(node) -2*self.feature2(node) + 
 
         return utility
 
@@ -35,120 +35,132 @@ class Heuristic:
         game = node.get_element()
         searchPosition = node.get_next_move()
 
-        i = searchPosition[1]
-        j = searchPosition[0]
+
         gameGrid = game.getGameGrid()
         AiPlayer = game.getPlayers()[0]
         centerPieces, topleftPieces, toprightPieces, bottomleftPieces, bottomrightPieces = 0, 0, 0, 0, 0
 
+        #find all of the max tokens
+        max_tokens = []
+
+        for row in range(7,10):
+            for column in range(0,3):
+                if node.get_element().getGameGrid()[row][column] is not None:
+                    token = game.getGameGrid()[row][column]
+                    if token.get_tokenColour() == AiPlayer.get_playerColour():
+                        max_tokens.append(token)
+
+        for token in max_tokens:
+            i = token.get_tokenPosition()[0]
+            j = token.get_tokenPosition()[1]
 
         # Center
-        if (1 <= i <= 8 and 1 <= j <= 10):
-            if (
-                    (gameGrid[i + 1][j + 1] is None or gameGrid[i + 1][j + 1].get_tokenColour() ==
-                    AiPlayer.get_playerColour()) and
-                    (gameGrid[i + 1][j - 1] is None or gameGrid[i + 1][j - 1].get_tokenColour() ==
-                    AiPlayer.get_playerColour()) and
-                    (gameGrid[i - 1][j + 1] is None or gameGrid[i - 1][j + 1].get_tokenColour() ==
-                    AiPlayer.get_playerColour()) and
-                    (gameGrid[i - 1][j - 1] is None or gameGrid[i - 1][j - 1].get_tokenColour() ==
-                    AiPlayer.get_playerColour())
-            ):
-                if gameGrid[i + 1][j + 1] is not None:
-                    centerPieces += 1
-                if gameGrid[i + 1][j - 1] is not None:
-                    centerPieces += 1
-                if gameGrid[i - 1][j + 1] is not None:
-                    centerPieces += 1
-                if gameGrid[i - 1][j - 1] is not None:
-                    centerPieces += 1
+            if (1 <= i <= 8 and 1 <= j <= 10):
+                if (
+                        (gameGrid[i + 1][j + 1] is None or gameGrid[i + 1][j + 1].get_tokenColour() ==
+                        AiPlayer.get_playerColour()) and
+                        (gameGrid[i + 1][j - 1] is None or gameGrid[i + 1][j - 1].get_tokenColour() ==
+                        AiPlayer.get_playerColour()) and
+                        (gameGrid[i - 1][j + 1] is None or gameGrid[i - 1][j + 1].get_tokenColour() ==
+                        AiPlayer.get_playerColour()) and
+                        (gameGrid[i - 1][j - 1] is None or gameGrid[i - 1][j - 1].get_tokenColour() ==
+                        AiPlayer.get_playerColour())
+                ):
+                    if gameGrid[i + 1][j + 1] is not None:
+                        centerPieces += 1
+                    if gameGrid[i + 1][j - 1] is not None:
+                        centerPieces += 1
+                    if gameGrid[i - 1][j + 1] is not None:
+                        centerPieces += 1
+                    if gameGrid[i - 1][j - 1] is not None:
+                        centerPieces += 1
 
 
-        # top left
-        if (0 <= i <= 7 and 0 <= j <= 9):
-            if (
-                    (gameGrid[i][j + 2] is None or gameGrid[i][j + 2].get_tokenColour() ==
-                    AiPlayer.get_playerColour()) and
-                    (gameGrid[i + 1][j + 1] is None or gameGrid[i + 1][j + 1].get_tokenColour() ==
-                    AiPlayer.get_playerColour()) and
-                    (gameGrid[i + 2][j] is None or gameGrid[i + 2][j].get_tokenColour() ==
-                    AiPlayer.get_playerColour()) and
-                    (gameGrid[i + 2][j + 2] is None or gameGrid[i + 2][j + 2].get_tokenColour() ==
-                    AiPlayer.get_playerColour())
-            ):
-                if gameGrid[i][j + 2] is not None:
-                    topleftPieces += 1
-                if gameGrid[i + 1][j + 1] is not None:
-                    topleftPieces += 1
-                if gameGrid[i + 2][j] is not None:
-                    topleftPieces += 1
-                if gameGrid[i + 2][j + 2] is not None:
-                    topleftPieces += 1
+            # top left
+            if (0 <= i <= 7 and 0 <= j <= 9):
+                if (
+                        (gameGrid[i][j + 2] is None or gameGrid[i][j + 2].get_tokenColour() ==
+                        AiPlayer.get_playerColour()) and
+                        (gameGrid[i + 1][j + 1] is None or gameGrid[i + 1][j + 1].get_tokenColour() ==
+                        AiPlayer.get_playerColour()) and
+                        (gameGrid[i + 2][j] is None or gameGrid[i + 2][j].get_tokenColour() ==
+                        AiPlayer.get_playerColour()) and
+                        (gameGrid[i + 2][j + 2] is None or gameGrid[i + 2][j + 2].get_tokenColour() ==
+                        AiPlayer.get_playerColour())
+                ):
+                    if gameGrid[i][j + 2] is not None:
+                        topleftPieces += 1
+                    if gameGrid[i + 1][j + 1] is not None:
+                        topleftPieces += 1
+                    if gameGrid[i + 2][j] is not None:
+                        topleftPieces += 1
+                    if gameGrid[i + 2][j + 2] is not None:
+                        topleftPieces += 1
 
 
-        # top right
-        if (0 <= i <= 7 and 2 <= j <= 11):
-            if (
-                    (gameGrid[i][j - 2] is None or gameGrid[i][j - 2].get_tokenColour() ==
-                    AiPlayer.get_playerColour()) and
-                    (gameGrid[i + 1][j - 1] is None or gameGrid[i + 1][j - 1].get_tokenColour() ==
-                    AiPlayer.get_playerColour()) and
-                    (gameGrid[i + 2][j] is None or gameGrid[i + 2][j].get_tokenColour() ==
-                    AiPlayer.get_playerColour()) and
-                    (gameGrid[i + 2][j - 2] is None or gameGrid[i + 2][j - 2].get_tokenColour() ==
-                    AiPlayer.get_playerColour())
-            ):
-                if gameGrid[i][j - 2] is not None:
-                    toprightPieces += 1
-                if gameGrid[i + 1][j - 1] is not None:
-                    toprightPieces += 1
-                if gameGrid[i + 2][j] is not None:
-                    toprightPieces += 1
-                if gameGrid[i + 2][j - 2] is not None:
-                    toprightPieces += 1
+            # top right
+            if (0 <= i <= 7 and 2 <= j <= 11):
+                if (
+                        (gameGrid[i][j - 2] is None or gameGrid[i][j - 2].get_tokenColour() ==
+                        AiPlayer.get_playerColour()) and
+                        (gameGrid[i + 1][j - 1] is None or gameGrid[i + 1][j - 1].get_tokenColour() ==
+                        AiPlayer.get_playerColour()) and
+                        (gameGrid[i + 2][j] is None or gameGrid[i + 2][j].get_tokenColour() ==
+                        AiPlayer.get_playerColour()) and
+                        (gameGrid[i + 2][j - 2] is None or gameGrid[i + 2][j - 2].get_tokenColour() ==
+                        AiPlayer.get_playerColour())
+                ):
+                    if gameGrid[i][j - 2] is not None:
+                        toprightPieces += 1
+                    if gameGrid[i + 1][j - 1] is not None:
+                        toprightPieces += 1
+                    if gameGrid[i + 2][j] is not None:
+                        toprightPieces += 1
+                    if gameGrid[i + 2][j - 2] is not None:
+                        toprightPieces += 1
 
 
-        # bottom left
-        if (2 <= i <= 9 and 0 <= j <= 9):
-            if (
-                    (gameGrid[i - 2][j] is None or gameGrid[i - 2][j].get_tokenColour() ==
-                    AiPlayer.get_playerColour()) and
-                    (gameGrid[i][j + 2] is None or gameGrid[i][j + 2].get_tokenColour() ==
-                    AiPlayer.get_playerColour()) and
-                    (gameGrid[i - 1][j + 1] is None or gameGrid[i - 1][j + 1].get_tokenColour() ==
-                    AiPlayer.get_playerColour()) and
-                    (gameGrid[i - 2][j + 2] is None or gameGrid[i - 2][j + 2].get_tokenColour() ==
-                    AiPlayer.get_playerColour())
-            ):
-                if gameGrid[i - 2][j] is not None:
-                    bottomleftPieces += 1
-                if gameGrid[i][j + 2] is not None:
-                    bottomleftPieces += 1
-                if gameGrid[i - 1][j + 1] is not None:
-                    bottomleftPieces += 1
-                if gameGrid[i - 2][j + 2] is not None:
-                    bottomleftPieces += 1
+            # bottom left
+            if (2 <= i <= 9 and 0 <= j <= 9):
+                if (
+                        (gameGrid[i - 2][j] is None or gameGrid[i - 2][j].get_tokenColour() ==
+                        AiPlayer.get_playerColour()) and
+                        (gameGrid[i][j + 2] is None or gameGrid[i][j + 2].get_tokenColour() ==
+                        AiPlayer.get_playerColour()) and
+                        (gameGrid[i - 1][j + 1] is None or gameGrid[i - 1][j + 1].get_tokenColour() ==
+                        AiPlayer.get_playerColour()) and
+                        (gameGrid[i - 2][j + 2] is None or gameGrid[i - 2][j + 2].get_tokenColour() ==
+                        AiPlayer.get_playerColour())
+                ):
+                    if gameGrid[i - 2][j] is not None:
+                        bottomleftPieces += 1
+                    if gameGrid[i][j + 2] is not None:
+                        bottomleftPieces += 1
+                    if gameGrid[i - 1][j + 1] is not None:
+                        bottomleftPieces += 1
+                    if gameGrid[i - 2][j + 2] is not None:
+                        bottomleftPieces += 1
 
-        # bottom right
-        if (2 <= i <= 9 and 2 <= j <= 11):
-            if (
-                    (gameGrid[i - 2][j] is None or gameGrid[i - 2][j].get_tokenColour() ==
-                    AiPlayer.get_playerColour()) and
-                    (gameGrid[i - 1][j - 1] is None or gameGrid[i - 1][j - 1].get_tokenColour() ==
-                    AiPlayer.get_playerColour()) and
-                    (gameGrid[i][j - 2] is None or gameGrid[i][j - 2].get_tokenColour() ==
-                    AiPlayer.get_playerColour()) and
-                    (gameGrid[i - 2][j - 2] is None or gameGrid[i - 2][j - 2].get_tokenColour() ==
-                    AiPlayer.get_playerColour())
-            ):
-                if gameGrid[i - 2][j] is not None:
-                    bottomrightPieces += 1
-                if gameGrid[i - 1][j - 1] is not None:
-                    bottomrightPieces += 1
-                if gameGrid[i][j - 2] is not None:
-                    bottomrightPieces += 1
-                if gameGrid[i - 2][j - 2] is not None:
-                    bottomrightPieces += 1
+            # bottom right
+            if (2 <= i <= 9 and 2 <= j <= 11):
+                if (
+                        (gameGrid[i - 2][j] is None or gameGrid[i - 2][j].get_tokenColour() ==
+                        AiPlayer.get_playerColour()) and
+                        (gameGrid[i - 1][j - 1] is None or gameGrid[i - 1][j - 1].get_tokenColour() ==
+                        AiPlayer.get_playerColour()) and
+                        (gameGrid[i][j - 2] is None or gameGrid[i][j - 2].get_tokenColour() ==
+                        AiPlayer.get_playerColour()) and
+                        (gameGrid[i - 2][j - 2] is None or gameGrid[i - 2][j - 2].get_tokenColour() ==
+                        AiPlayer.get_playerColour())
+                ):
+                    if gameGrid[i - 2][j] is not None:
+                        bottomrightPieces += 1
+                    if gameGrid[i - 1][j - 1] is not None:
+                        bottomrightPieces += 1
+                    if gameGrid[i][j - 2] is not None:
+                        bottomrightPieces += 1
+                    if gameGrid[i - 2][j - 2] is not None:
+                        bottomrightPieces += 1
 
         return max(centerPieces, topleftPieces, toprightPieces, bottomleftPieces, bottomrightPieces)
 
@@ -177,8 +189,8 @@ class Heuristic:
 
         max_tokens = []
 
-        for row in range(2,8):
-            for column in range(3,9):
+        for row in range(7,10):
+            for column in range(0,3):
                 if state.getGameGrid()[row][column] is not None:
                     token = state.getGameGrid()[row][column]
                     if token.get_tokenColour() == max_token_colour:
@@ -195,14 +207,14 @@ class Heuristic:
             BL = [i+1,j-1]  #bottom left
             BR = [i+1,j+1]  #bottom right
 
-            if TL[0] in [0,9] and TL[1] in [0,11]:
+            if TL[0] in range(7,10) and TL[1] in range(0,3):
                 corners.append(TL)
-            if TR[0] in [0,9] and TR[1] in [0,11]:
-                corners.append(TL)
-            if BL[0] in [0,9] and BL[1] in [0,11]:
-                corners.append(TL)
-            if BR[0] in [0,9] and BR[1] in [0,11]:
-                corners.append(TL)                
+            if TR[0] in range(7,10) and TR[1] in range(0,3):
+                corners.append(TR)
+            if BL[0] in range(7,10) and BL[1] in range(0,3):
+                corners.append(BL)
+            if BR[0] in range(7,10) and BR[1] in range(0,3):
+                corners.append(BR)                
 
             # for each of the corners, check if they have the same colour as max_token_colour
             for corner in corners:
@@ -233,8 +245,8 @@ class Heuristic:
         max_token = []
 
         #find all centered max tokens
-        for row in range(2,8):
-            for column in range(3,9):
+        for row in range(7,10):
+            for column in range(0,3):
                 if state.getGameGrid()[row][column] is not None:
                     token = state.getGameGrid()[row][column]
                     if token.get_tokenColour() == max_token_colour:
@@ -242,24 +254,26 @@ class Heuristic:
 
         #foreach of the max token, if that token was center, how many min tokens are to its left and right ?
         
+        blocking_left_tokens = 0 #number of left side tokens
+        blocking_right_tokens = 0  #number of right side tokens
+        
         for token in max_token:
-            i = token.get_tokenPosition()[0]
-            j = token.get_tokenPosition()[1]
+            i = token.get_tokenPosition()[1]
+            j = token.get_tokenPosition()[0]
  
-            blocking_left_tokens = 0 #number of left side tokens
-            blocking_right_tokens = 0  #number of right side tokens
+
             left = [i,j-1]  # left
             right = [i,j+1]  # right
             
             # for the left and ride sides, check if they have the same colour as max_token_colour
             
-            if (left[1] in [0,11]):
+            if (left[1] in range(0,3)):
                 if state.getGameGrid()[left[0]][left[1]] is not None: 
                     left_token = state.getGameGrid()[left[0]][left[1]]
                     if token.get_tokenColour() != min_token_colour:
                         blocking_left_tokens += 1
 
-            if (right[1] in [0,11]):
+            if (right[1] in range(0,3)):
                 if state.getGameGrid()[right[0]][right[1]] is not None:
                     right_token = state.getGameGrid()[right[0]][right[1]]
                     if token.get_tokenColour() != min_token_colour:
@@ -271,7 +285,7 @@ class Heuristic:
 
 
     def feature3(self,node):
-        """Best positions are within rows [2,7] and columns [2,9]"""
+        """number of possible win paths containing 2 diagonals"""
         
 
     def generate_game_states(self,root_node,maximizing_player, depth):
@@ -287,8 +301,8 @@ class Heuristic:
         possible_movements = []     #list containing list of possible token movements
         
         #generate all possible positions where a token can be placed or moved to.
-        for row in range(2,8):
-            for column in range(3,9):
+        for row in range(7,10):
+            for column in range(0,3):
                 if root.get_element().getGameGrid()[row][column] is None:
                     possible_placements.append([row,column])
                 else :
@@ -321,7 +335,6 @@ class Heuristic:
                 child_node.getPlayers()[1].placeToken(child_node , child_node.getPlayers()[1].get_playerTokens() , placement)
                 new_node = node.node(child_node)
                 new_node.set_next_move(placement)
-                new_node = node.node(child_node)
                 root.add_to_list_of_children(new_node)
 
             for movement in possible_movements:
@@ -336,11 +349,6 @@ class Heuristic:
                     self.generate_game_states(children,True,0)         
 
 
-
-
-
-
-
     def alphabeta(self,node,depth, alpha, beta, maximizing_player):
         """minimax algorithm
         
@@ -353,31 +361,72 @@ class Heuristic:
            returns the node with the best heuristic value and game object containing the next best position
         """
 
+        """
+            if depth == 0 :
+                return self.utility(node)
+            if maximizing_player:
+                v = f;pat('-inf')
+                for child in node.get_list_of_children():
+                    v_child = self.alphabeta(child.get_utility_score(),depth-1,alpha,beta,False)
+                    if v_child > v :
+                        next_node = v_child
+                    v = max(v,v_child)
+                    if beta <= alpha:
+                        break
+                return (v,child)
+        
+        """
+
         if depth == 0:
             return self.utility(node)
 
         if maximizing_player:
             v = float('-inf')   #worst case for max
             for child in node.get_list_of_children():
-                v = max(v,self.alphabeta(child,depth - 1,alpha, beta, False ))
+                v_child = self.alphabeta(child,depth-1,alpha,beta,False)
+                child.set_utility_score(v_child)
+                v = max(v,v_child)
                 alpha = max(alpha,v)
                 if beta <= alpha:
                     break
-            return (v,child)
+            return v
         else :
             v = float('inf')    #worst case for min
             for child in node.get_list_of_children():
-                v = min(v,self.alphabeta(child,depth - 1, alpha, beta,True ))
+                v_child = self.alphabeta(child,depth-1,alpha,beta,True)
+                child.set_utility_score(v_child)
+                v = min(v,v_child)
                 beta = min(beta,v)
                 if beta <= alpha:
                     break
             return v
 
+    def find_next_move(self):
+        """finds next move for Game grid by calling alphabeta on the game node"""
 
+        self.generate_game_states(self.get_game_node(),True,2)
+        heuristic_score = heuristic.alphabeta(self.get_game_node(),2,neg_inf,inf,True)
+ 
+        print("The next node will have a heuristic of :", heuristic_score)
+        print("from the following children: ")
+
+        for child in self.get_game_node().get_list_of_children():
+            if child.get_utility_score() == heuristic_score:
+                next_node = child
+
+        row = child.get_next_move()[0]
+        col = child.get_next_move()[1]
+
+        new_token = Token.Token("\u2588   ", [row,col])
+        print("The next move is : " , child.get_next_move())
+        self.get_game_node().get_element().getGameGrid()[row][col] = new_token
+
+        print("The new game grid with new token:")
+        self.get_game_node().get_element().printGameGrid()
 
 if __name__ == "__main__":
 
-    player1 = Player.Player("Sonam", "\u2588  ")
+    player1 = Player.Player("Sonam", "\u2588   ")
     player2 = Player.Player("Sonam", "\u2591   ")
     player1.InitializeTokenList()
     player2.InitializeTokenList()
@@ -388,17 +437,40 @@ if __name__ == "__main__":
 
     heuristic = Heuristic(new_game)
 
-    start = time.time()
-    heuristic.generate_game_states(heuristic.get_game_node(),True,1)
-    end = time.time()
-    print("It took ", end - start , "seconds to generate nodes till depth 2.")
+    # start = time.time()
+    # heuristic.generate_game_states(heuristic.get_game_node(),True,2)
+    # end = time.time()
+    # print("It took ", end - start , "seconds to generate nodes till depth 2.")
     
     # print(heuristic.feature1(heuristic.get_game_node().get_element(),True))
 
     inf = float('inf')
     neg_inf = float('-inf')
 
-    child_node = heuristic.alphabeta(heuristic.get_game_node(),1,neg_inf,inf,True)    
+    # child_node = heuristic.alphabeta(heuristic.get_game_node(),2,neg_inf,inf,True)    
+    # heuristic.get_game_node().set_next_move(child_node[1].get_next_move())
 
-    print(child_node[1].get_next_move())
+    # print(child_node[1].get_next_move())
 
+    white_token = Token.Token("\u2588   ",[8,1])
+    black_token = Token.Token("\u2591   ",[8,2])
+
+
+
+    new_game_grid = [ 
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+					[None,white_token,black_token,None,None,None,None,None,None,None,None,None],
+					[None,None,None,None,None,None,None,None,None,None,None,None],
+			]
+    
+    heuristic.get_game_node().get_element().setGameGrid(new_game_grid)
+
+    for i in range(0,2):
+        heuristic.find_next_move()
