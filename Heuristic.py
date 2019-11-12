@@ -1,4 +1,4 @@
-import Game, Player, Token, node, copy,time
+import Game, Player, Token, node, copy,time, math
 
 class Heuristic:
     """The heuristic object contains the minimax function for a game grid"""
@@ -298,32 +298,78 @@ class Heuristic:
 
         root = root_node            #root node for which to generate children
         possible_placements = []    #list containing list of possible token positions
-        possible_movements = []     #list containing list of possible token movements
-        
+        max_colour = root.get_element().getPlayers()[0].get_playerColour()
+        min_colour = root.get_element().getPlayers()[1].get_playerColour()
+        possible_movements_max = []     #list containing list of possible token movements for max tokens
+        possible_movements_min = []     #list containing list of possible token movements for max tokens
+
         #generate all possible positions where a token can be placed or moved to.
+
         for row in range(7,10):
             for column in range(0,3):
                 if root.get_element().getGameGrid()[row][column] is None:
-                    possible_placements.append([row,column])
+                    possible_placements.append([row,column])    #these tokens can be placed on the grid
                 else :
-                    possible_movements.append([row,column])
+                    if root.get_element().getGameGrid()[row][column].get_tokenColour() == max_colour:
+                        possible_movements_max.append([row,column])     #these max tokens can be moved potentially
+                    else:
+                        possible_movements_min.append([row,column])     #these min tokens can be moved potentially
 
-        #depth 1 : generate all children by moving token to that position
+
+        #depth 1 : generate all children nodes by placing and moving token to that position
         if maximizing_player:
             for placement in possible_placements:
-                child_node = copy.deepcopy(root.get_element())    #copy of original game state object
-                child_node.getPlayers()[0].placeToken(child_node , child_node.getPlayers()[0].get_playerTokens() , placement)
-                new_node = node.node(child_node)
+                
+                child_game = copy.deepcopy(root.get_element())    #copy of original game state object
+                child_game.getPlayers()[0].placeToken(child_game , child_game.getPlayers()[0].get_playerTokens() , placement)
+                
+                new_node = node.node(child_game)
                 new_node.set_next_move(placement)
                 root.add_to_list_of_children(new_node)
                 
             
-            for movement in possible_movements:
+            for old_position in possible_movements_max:
                 """
-                    generate all possible movements of distance 1 to None positions : TOP, TL, TR, B , BL , BR
+                    generate all possible movements for placed max tokens of distance 1 to None positions : TOP, TL, TR, B , BL , BR
+                    if these positions are not in the grid and these positions are occupied, remove them
                     generate all game states with for each possible movement
                     add them to the list of children to root.
                 """
+                valid_movements_max = [] #list containing movements that are valid : more specifically, these positions are not occuppied already in the grid
+                row = old_position[0]
+                col = old_position[1]
+
+                #Generate all possible positions of movement 1
+                T = [row-1,col]  #top
+                TL = [row-1,col-1] #Top left
+                TR = [row-1,col+1] #Top right
+                B = [row+1,col]  #bottom
+                BL = [row+1,col-1] #bottom left
+                BR = [row+1,col+1] #bottom right
+
+                #check if the positions are within the grid and empty if these tokens and add them to valid movements_max
+                if T[0] in range(7,10) and T[1] in range(0,3) and root.get_element().getGameGrid()[T[0]][T[1]] is None:
+                        valid_movements_max.append(T)
+                if TL[0] in range(7,10) and TL[1] in range(0,3) and root.get_element().getGameGrid()[T[0]][T[1]] is None:
+                    valid_movements_max.append(TL)
+                if TR[0] in range(7,10) and TR[1] in range(0,3) and root.get_element().getGameGrid()[T[0]][T[1]] is None:
+                    valid_movements_max.append(TR)
+                if B[0] in range(7,10) and B[1] in range(0,3) and root.get_element().getGameGrid()[T[0]][T[1]] is None:
+                    valid_movements_max.append(B)
+                if BL[0] in range(7,10) and BL[1] in range(0,3) and root.get_element().getGameGrid()[T[0]][T[1]] is None:
+                    valid_movements_max.append(BL)
+                if BR[0] in range(7,10) and BR[1] in range(0,3) and root.get_element().getGameGrid()[T[0]][T[1]] is None:
+                    valid_movements_max.append(BR)   
+
+                #Generate possible game grids if old_position was removed and replaced by possible placements
+                
+                for movement in valid_movements_max:
+                    child_game = copy.deepcopy(root.get_element())    #copy of original game state object
+                    child_game.getGameGrid()[old_position[0]][old_position[1]] = None   #remove old token and replace with none
+                    child_game.getPlayers()[0].placeToken(child_game , child_game.getPlayers()[0].get_playerTokens() , movement)   #place new token
+                    new_node = node.node(child_game)
+                    new_node.set_next_move(movement)
+                    root.add_to_list_of_children(new_node)
 
             if depth == 2:
                 for children in root.get_list_of_children():
@@ -331,18 +377,55 @@ class Heuristic:
                 
         else:
             for placement in possible_placements:
-                child_node = copy.deepcopy(root.get_element())    #copy of original game state object
-                child_node.getPlayers()[1].placeToken(child_node , child_node.getPlayers()[1].get_playerTokens() , placement)
-                new_node = node.node(child_node)
+                child_game = copy.deepcopy(root.get_element())    #copy of original game state object
+                child_game.getPlayers()[1].placeToken(child_game , child_game.getPlayers()[1].get_playerTokens() , placement)
+                new_node = node.node(child_game)
                 new_node.set_next_move(placement)
                 root.add_to_list_of_children(new_node)
 
-            for movement in possible_movements:
+            for old_position in possible_movements_min:
                 """
-                    generate all possible movements of distance 1 to None positions
+                    generate all possible movementsfor min tokens of distance 1 to None positions
                     generate all game states with for each possible movement
                     add them to the list of children to root.
                 """
+                row = old_position[0]
+                col = old_position[1]
+                valid_movements_min = [] #list containing movements that are valid : more specifically, these positions are not occuppied already in the grid
+
+                T = [row-1,col]  #top
+                TL = [row-1,col-1] #Top left
+                TR = [row-1,col+1] #Top right
+                B = [row+1,col]  #bottom
+                BL = [row+1,col-1] #bottom left
+                BR = [row+1,col+1] #bottom right
+
+                #check if the positions are in the grid and if these tokens can be moved by max
+                if T[0] in range(7,10) and T[1] in range(0,3) and root.get_element().getGameGrid()[T[0]][T[1]] is None:
+                    possible_movements_min.append(T)
+                if TL[0] in range(7,10) and TL[1] in range(0,3) and root.get_element().getGameGrid()[T[0]][T[1]] is None:
+                    possible_movements_min.append(TL)
+                if TR[0] in range(7,10) and TR[1] in range(0,3) and root.get_element().getGameGrid()[T[0]][T[1]] is None:
+                    possible_movements_min.append(TR)
+                if B[0] in range(7,10) and B[1] in range(0,3) and root.get_element().getGameGrid()[T[0]][T[1]] is None:
+                    possible_movements_min.append(B)
+                if BL[0] in range(7,10) and BL[1] in range(0,3) and root.get_element().getGameGrid()[T[0]][T[1]] is None:
+                    possible_movements_min.append(BL)
+                if BR[0] in range(7,10) and BR[1] in range(0,3) and root.get_element().getGameGrid()[T[0]][T[1]] is None:
+                    possible_movements_min.append(BR)     
+
+                #Generate possible game grids if movement was removed and replaced by possible placements
+                
+                for movement in possible_movements_min:
+                    child_game = copy.deepcopy(root.get_element())    #copy of original game state object
+                    child_game.getGameGrid()[old_position[0]][old_position[1]] = None   #remove old token and replace with none
+                    child_game.getPlayers()[0].placeToken(child_game , child_game.getPlayers()[0].get_playerTokens() , movement)   #place new token
+                    new_node = node.node(child_game)
+                    new_node.set_next_move(movement)
+                    root.add_to_list_of_children(new_node)
+
+                #Generate possible game grids if movement was removed and replaced by possible placements
+
 
             if depth == 2:
                 for children in root.get_list_of_children():
@@ -404,8 +487,8 @@ class Heuristic:
     def find_next_move(self):
         """finds next move for Game grid by calling alphabeta on the game node"""
 
-        self.generate_game_states(self.get_game_node(),True,2)
-        heuristic_score = heuristic.alphabeta(self.get_game_node(),2,neg_inf,inf,True)
+        self.generate_game_states(self.get_game_node(),True,1)
+        heuristic_score = heuristic.alphabeta(self.get_game_node(),1,neg_inf,inf,True)
  
         print("The next node will have a heuristic of :", heuristic_score)
         print("from the following children: ")
@@ -472,5 +555,6 @@ if __name__ == "__main__":
     
     heuristic.get_game_node().get_element().setGameGrid(new_game_grid)
 
-    for i in range(0,2):
+    for i in range(0,1):
         heuristic.find_next_move()
+        print("done")
