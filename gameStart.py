@@ -1,4 +1,4 @@
-import Game, Player, Token, Heuristic, math, random
+import Game, Player, Token, Heuristic, math, random, Node
 
 if __name__ == "__main__":
     startState = False
@@ -6,7 +6,7 @@ if __name__ == "__main__":
     chosenToken, placementPosition, movementPosition, nbMoves = [], [], [], 0
     rows = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
     columns = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"]
-    CenterPosition = [[4,5],[4,6],[5,5],[5,6]]          #FOR NOW, START AI AT ONE OF THE 4 CENTER POSITIONS
+    CenterPosition = [[4,5],[5,5],[5,6]]          #FOR NOW, START AI AT ONE OF THE 4 CENTER POSITIONS
     currentMove, previousMove = [], []                  #GETS THE PREVIOUS MOVE OF THE AI, TO START NEXT HEURISTIC SEARCH AT THE PREVIOUS MOVE
     possibleMoves = []                                  #LIST OF ALL THE POSSIBLE MOVES THE AI COULD DO THIS TURN
 
@@ -207,54 +207,43 @@ if __name__ == "__main__":
 
                     if i == newGame.getPlayers()[0]:
                         print("It is the artificial intelligent agent's turn to play now.")
-                        if len(i.get_playerTokens()) != 0:
+                        if len(i.get_playerTokens()) > 0:
                             if len(i.get_playerTokens()) == 15:
                                 currentMove = CenterPosition[random.randrange(0,4)]
-
-                                print("AI is going to place first at :", currentMove)
-
                                 i.placeToken(newGame, i.get_playerTokens(), currentMove)
                                 i.set_nbTokens(len(i.get_playerTokens()))
                                 previousMove = currentMove
-
-                                print("AI previous move is for first:", previousMove)
 
                             else:
-                                print("AI previous move is :", previousMove)
-
-                                possibleMoves = []
-                                toRemove = []
-                                possibleMoves = Heuristic.Heuristic.searchList(newGame, previousMove, 1)
-
-                                print("Ai found these moves : ", possibleMoves)
-
-                                for move in possibleMoves:
-                                    print("State of position: ", move , " - " , newGame.getGameGrid()[move[0]][move[1]], " - ", newGame.getGameGrid()[move[0]][move[1]] is not None)
-
-                                for move in possibleMoves:
-                                    print("Check if it has to be removed ", move, " - ", newGame.getGameGrid()[move[0]][move[1]] is not None)
-                                    if newGame.getGameGrid()[move[0]][move[1]] is not None:
-                                        toRemove.append(move)
-                                
-                                for move in toRemove:
-                                    possibleMoves.remove(move)
-
-                                print("These moves are remaining: ", possibleMoves)
-
-                                currentMove = possibleMoves[random.randrange(0,(len(possibleMoves)))]
-
-                                print("AI is going to place at :", currentMove)
-
-
-                                i.placeToken(newGame, i.get_playerTokens(), currentMove)
+                                temp = Heuristic.Heuristic.minimax(newGame, previousMove, 1, True, previousMove)
+                                i.placeToken(newGame, i.get_playerTokens(), temp.get_position())
                                 i.set_nbTokens(len(i.get_playerTokens()))
-                                previousMove = currentMove
+                                previousMove = temp.get_position()
+                        else:
+                            finalScore = 0
+                            finalToken = None
+                            maxTokenList = None
+                            maxTokenList = Heuristic.Heuristic.generate_movements(newGame, True)
+                            for node in maxTokenList:
+                                maxScore = 0
+                                maxPosition = []
+                                for position in node.get_position():
+                                    temp = max(maxScore, Heuristic.Heuristic.minimax(newGame, position, 0, True, position))
+                                    if maxScore != temp:
+                                        maxPosition = position
+                                        maxScore = temp
+                                node.set_extra(Node.Node(maxScore, maxPosition))
 
-                                print("AI previous move is for end of loop:", previousMove)
+                            for node in maxTokenList:
+                                if node.get_extra().get_score() > finalScore:
+                                    finalToken = node
+                                    finalScore = node.get_extra().get_score()
 
-                                if newGame.getgameFinished():
-                                        print("Player " + i.get_playerName() + " won.")
-                                        exit(1)
+                            i.moveToken(newGame, finalToken.get_score().get_tokenPosition(), finalToken.get_extra().get_position())
+
+                        if newGame.getgameFinished():
+                            print("Player " + i.get_playerName() + " won.")
+                            exit(1)
                         continue
 
                     while turnType not in ["1", "2"]:
