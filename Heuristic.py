@@ -25,8 +25,6 @@ class Heuristic:
                             childScoreMax.set_position(nextMove)
                             best_childScore = childScoreMax.get_score()
 
-                        print(childScoreMax.get_score(), childScoreMax.get_position(), best_childScore, "max")
-
                         game.getPlayers()[0].get_playerTokens().append(game.getGameGrid()[y][x])
                         game.getGameGrid()[y][x] = None
 
@@ -197,3 +195,76 @@ class Heuristic:
                     bottomrightPieces += 1
 
         return max(centerPieces, topleftPieces, toprightPieces, bottomleftPieces, bottomrightPieces)
+
+    def generate_movements(game, maximizing_player):
+        """Generate new game states by placing or moving tokens to up to a certain depth.
+
+            game :     game object
+            maximizing_player :     boolean which tells if player is max or not
+            depth : depth at which to search children for
+         """
+
+        # from the game object, find all max tokens
+        # for each max token, find all possible movements for the max token
+        # store these movements in a list
+
+        max_colour = game.getPlayers()[0].get_playerColour()
+        min_colour = game.getPlayers()[1].get_playerColour()
+        possible_movements_max = []
+
+        for row in range(0, 10):
+            for column in range(0, 12):
+                if game.getGameGrid()[row][column] is not None and game.getGameGrid()[row][column].get_tokenColour() == max_colour:
+                    possible_movements_max.append(Node.Node(game.getGameGrid()[row][column], []))
+
+        # depth 1 : generate all children nodes by placing and moving token to that position
+        if maximizing_player:
+            for object in possible_movements_max:
+                """
+                    generate all possible movements for placed max tokens of distance 1 to None positions : TOP, TL, TR, B , BL , BR
+                    if these positions are not in the grid and these positions are occupied, remove them
+                    generate all game states with for each possible movement
+                    add them to the list of children to root.
+                """
+                row = object.get_score().get_tokenPosition()[0]
+                col = object.get_score().get_tokenPosition()[1]
+
+                # Generate all possible positions of movement 1
+                T = [row - 1, col]  # top
+                TL = [row - 1, col - 1]  # Top left
+                TR = [row - 1, col + 1]  # Top right
+                L = [row, col - 1]  # Left
+                R = [row, col + 1]  # right
+                B = [row + 1, col]  # bottom
+                BL = [row + 1, col - 1]  # bottom left
+                BR = [row + 1, col + 1]  # bottom right
+
+                # check if the positions are within the grid and empty if these tokens and add them to valid movements_max
+
+                if 0 <= T[0] <= 9 and 0 <= T[1] <= 11 and game.getGameGrid()[T[0]][T[1]] is None:
+                    object.append_position(T)
+
+                if 0 <= TL[0] <= 9 and 0 <= TL[1] <= 11 and game.getGameGrid()[TL[0]][TL[1]] is None:
+                    object.append_position(TL)
+
+                if 0 <= TR[0] <= 9 and 0 <= TR[1] <= 11 and game.getGameGrid()[TR[0]][TR[1]] is None:
+                    object.append_position(TR)
+
+                if 0 <= L[0] <= 9 and 0 <= L[1] <= 11 and game.getGameGrid()[L[0]][L[1]] is None:
+                    object.append_position(L)
+
+                if 0 <= R[0] <= 9 and 0 <= R[1] <= 11 and game.getGameGrid()[R[0]][R[1]] is None:
+                    object.append_position(R)
+
+                if 0 <= B[0] <= 9 and 0 <= B[1] <= 11 and game.getGameGrid()[B[0]][B[1]] is None:
+                    object.append_position(B)
+
+                if 0 <= BL[0] <= 9 and 0 <= BL[1] <= 11 and game.getGameGrid()[BL[0]][BL[1]] is None:
+                    object.append_position(BL)
+
+                if 0 <= BR[0] <= 9 and 0 <= BR[1] <= 11 and game.getGameGrid()[BR[0]][BR[1]] is None:
+                    object.append_position(BR)
+
+                        # Generate possible game grids if old_position was removed and replaced by possible placements
+
+            return possible_movements_max
