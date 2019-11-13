@@ -79,8 +79,8 @@ class Heuristic:
             game : The game that is being played on
 
         """
-        i = searchPosition[1]
-        j = searchPosition[0]
+        i = searchPosition[0]
+        j = searchPosition[1]
         gameGrid = game.getGameGrid()
         AiPlayer = game.getPlayers()[0]
         centerPieces, topleftPieces, toprightPieces, bottomleftPieces, bottomrightPieces = 0, 0, 0, 0, 0

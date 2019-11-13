@@ -209,7 +209,7 @@ if __name__ == "__main__":
                         print("It is the artificial intelligent agent's turn to play now.")
                         if len(i.get_playerTokens()) > 0:
                             if len(i.get_playerTokens()) == 15:
-                                currentMove = CenterPosition[random.randrange(0,4)]
+                                currentMove = CenterPosition[random.randrange(0,3)]
                                 i.placeToken(newGame, i.get_playerTokens(), currentMove)
                                 i.set_nbTokens(len(i.get_playerTokens()))
                                 previousMove = currentMove
