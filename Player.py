@@ -46,6 +46,10 @@ class Player:
         """Return the time took for the player/AI to make a move"""
         return self._moveTime
 
+    def set_nbTokens(self, nbTokens):
+        """Return the number of tokens of the player"""
+        self._nbTokens = nbTokens
+
     #----------------------------------------------------------------------------------------------------
 
     def InitializeTokenList(self):
