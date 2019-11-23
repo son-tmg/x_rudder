@@ -31,7 +31,7 @@ If an row and column position is entered for a position that is already occupied
 
 "Your token could not be placed at the specified coordinate. Please re-enter the coordinate of the position you would like to move your token."
 
-When a player has succesfully entered the row and column, the gamegrid will be displayed to show the new state of the game.
+When a player has successfully entered the row and column, the gamegrid will be displayed to show the new state of the game.
 
 After the first round, it will now be possible for a player to place or move tokens via the following prompt:
 
@@ -41,9 +41,8 @@ To make a placement, input "1" and you will be prompted to enter the row and col
 To make a movement, input "2" and you will be prompted to select the desired token and input the new coordinates as follows : 
 
 
-"
-player_name, it is your turn to play. Would you like to make a placement or a movement of a token? (1-Placement, 2-Movement): 2
-You will now input the coordinates of the position you would like to move your specified token to. You can only move 1 square from your current position.Please pick which token you would like to move by specifying the row it is in (Select from 1 to 10): 1 
+"player_name, it is your turn to play. Would you like to make a placement or a movement of a token? (1-Placement, 2-Movement): 2
+You will now input the coordinates of the position you would like to move your specified token to. You can only move 1 square from your current position. Please pick which token you would like to move by specifying the row it is in (Select from 1 to 10): 1 
 Please pick which token you would like to move by specifying the column it is in (Select from A to L):  A
 Please pick which row you would like to move your token in (Select from 1 to 10): 1
 Please pick which column you would like to move your token in (Select from A to L): b
@@ -55,6 +54,7 @@ If a player has finished placing all their tokens, they will only be allowed to 
 
 
 2. Player vs. AI:
+
 
 In this mode, the AI will be player 1 and you will play as player 2. A prompt will ask you the input your name.
 
