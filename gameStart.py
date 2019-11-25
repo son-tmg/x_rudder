@@ -1,4 +1,4 @@
-import Game, Player, Token, Heuristic, math, random, Node
+import Game, Player, Token, Heuristic, math, random, Node, time
 
 if __name__ == "__main__":
     startState = False
@@ -207,13 +207,13 @@ if __name__ == "__main__":
 
                     if i == newGame.getPlayers()[0]:
                         print("It is the artificial intelligent agent's turn to play now.")
+                        start = time.time() #start timer
                         if len(i.get_playerTokens()) > 0:
                             if len(i.get_playerTokens()) == 15:
                                 currentMove = CenterPosition[random.randrange(0,4)]
                                 i.placeToken(newGame, i.get_playerTokens(), currentMove)
                                 i.set_nbTokens(len(i.get_playerTokens()))
                                 previousMove = currentMove
-
                             else:
                                 temp = Heuristic.Heuristic.minimax(newGame, previousMove, 1, True, previousMove)
                                 i.placeToken(newGame, i.get_playerTokens(), temp.get_position())
@@ -241,6 +241,9 @@ if __name__ == "__main__":
 
                             i.moveToken(newGame, finalToken.get_score().get_tokenPosition(), finalToken.get_extra().get_position())
 
+                        end = time.time()   #record end time of move
+                        turnTime = end - start  #subtract start and end to find total time for move
+                        print("AI took ", turnTime , " seconds to make a move.\n")
                         if newGame.getgameFinished():
                             print("Player " + i.get_playerName() + " won.")
                             exit(1)
